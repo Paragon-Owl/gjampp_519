@@ -15,8 +15,11 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField] public GameObject projectilePrefab;
 
-    public Vector2 minBoundary;
-    public Vector2 maxBoundary;
+
+    private Vector2 minBoundary;
+    private Vector2 maxBoundary;
+    public Vector2 minBoundaryBorder;
+    public Vector2 maxBoundaryBorder;
     private Camera gameCamera;
 
 
@@ -65,8 +68,8 @@ public class CharacterController : MonoBehaviour
         direction.y = Mathf.Clamp(direction.y, -speed, speed);
 
         Vector3 newPos = transform.position;
-        newPos.x = Mathf.Clamp(newPos.x+direction.x, minBoundary.x, maxBoundary.x);
-        newPos.y = Mathf.Clamp(newPos.y+direction.y, minBoundary.y, maxBoundary.y);
+        newPos.x = Mathf.Clamp(newPos.x+direction.x, minBoundary.x + minBoundaryBorder.x, maxBoundary.x + maxBoundaryBorder.x);
+        newPos.y = Mathf.Clamp(newPos.y+direction.y, minBoundary.y + minBoundaryBorder.y, maxBoundary.y + maxBoundaryBorder.y);
         transform.position = newPos;
     }
 
