@@ -1,6 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "Effect/TexTransitions"
+﻿Shader "Effect/TexTransitions"
 {
 	Properties
 	{
@@ -12,10 +10,6 @@ Shader "Effect/TexTransitions"
 
 		SubShader
 		{
-			// No culling or depth
-			Cull On
-			ZWrite On
-			ZTest Always
 
 			Pass
 			{
@@ -37,19 +31,11 @@ Shader "Effect/TexTransitions"
 					float4 vertex : SV_POSITION;
 				};
 
-				float4 _MainTex_TexelSize;
-
 				v2f vert(appdata v)
 				{
 					v2f o;
 					o.vertex = UnityObjectToClipPos(v.vertex);
 					o.uv = v.uv;
-
-					#if UNITY_UV_STARTS_AT_TOP
-					if (_MainTex_TexelSize.y < 0)
-						o.uv1.y = 1 - o.uv1.y;
-					#endif
-
 					return o;
 				}
 
@@ -60,9 +46,9 @@ Shader "Effect/TexTransitions"
 
 				fixed4 frag(v2f i) : SV_Target
 				{
-					fixed4 transit = tex2D(_TransitionTex, i.uv1);
+					fixed4 transit = tex2D(_TransitionTex, i.uv);
 
-					if (transit.r < _Cutoff)
+					if (transit.r <= _Cutoff)
 						return tex2D(_DoubleTex, i.uv);
 
 					return tex2D(_MainTex, i.uv);

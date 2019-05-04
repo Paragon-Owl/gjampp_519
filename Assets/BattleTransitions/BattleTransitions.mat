@@ -19,12 +19,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DoubleTex:
+        m_Texture: {fileID: 2800000, guid: 2160b3408b23c2241babef7c5fc7598d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 5c0a2798debe75b4380d33ce151e44bd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TransitionTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 36861919e7472cc4b9eb00ac67ef4bd2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TransitionTexture:
