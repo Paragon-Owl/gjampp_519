@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,9 +23,9 @@ public class CharacterController : MonoBehaviour
     public Vector2 maxBoundaryBorder;
     private Camera gameCamera;
 
-
     private Vector3 direction;
 
+    public bool hasMutishot = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,6 +77,16 @@ public class CharacterController : MonoBehaviour
     void Fire()
     {
         Instantiate(projectilePrefab,transform.position, Quaternion.identity);
+        if (hasMutishot)
+        {
+            for (float position = -1; position <=1; position += 1)
+            {
+                double alpha = ((5 + position) * Math.PI) / 10;
+                Vector3 dir = new Vector3((float) Math.Cos(alpha), (float) Math.Sin(alpha), 0);
+                GameObject newShot = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                newShot.GetComponent<Projectile>().direction= dir;
+            }
+        }
     }
 
     void Hit()
