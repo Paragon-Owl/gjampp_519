@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/FlorentTest.unity
+    guid: 12ffadb580a4ea74db08daea49406367
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: 575c3b69ce4a6a0429a7856ab087df29
   m_configObjects: {}
