@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5019648859606167034}
   - component: {fileID: 5019648859606167037}
   - component: {fileID: 593651421}
+  - component: {fileID: 373472948698198023}
+  - component: {fileID: 4614350068535180633}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -135,6 +137,9 @@ MonoBehaviour:
   hasChargingSword: 0
   hasKnockbackSword: 0
   dashPower: 1.5
+  SwordCollider2Ds:
+  - {fileID: 373472948698198023}
+  - {fileID: 4614350068535180633}
 --- !u!70 &5019648859606167037
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -145,30 +150,41 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.04794848}
   m_Size: {x: 0.16, y: 0.3421906}
   m_Direction: 0
---- !u!50 &593651421
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!70 &373472948698198023
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5019648859606167033}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.11, y: 0.1}
+  m_Size: {x: 0.24, y: 0.4127607}
+  m_Direction: 0
+--- !u!70 &4614350068535180633
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5019648859606167033}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.11, y: 0.1}
+  m_Size: {x: 0.24, y: 0.4127}
+  m_Direction: 0
