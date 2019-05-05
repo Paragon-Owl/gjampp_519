@@ -5,43 +5,89 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
 
-    [SerializeField] public float speed = 10;
-    public float speedRotation = 10;
+    [SerializeField] public float speed = 1;
+    public float speedRotation = 1;
 
-    public bool isAutoGuide = true;
+    public static bool isAutoGuide = false;
+    public static bool isFire = false;
+    public static bool isIce = false;
+    public static bool isThunder = false;
+    public static bool isBouncing = false;
+    public static bool isPiercing = false;
+
+    public float dmg = 10;
     public Vector3 direction = Vector3.up;
     private Vector3 target = Vector3.zero;
+    private List<int> unauthorizedAutoGuide = new List<int>();
+    
+    private int fireDmg;
+    private int slowImp;
+    private int thunderDmg;
+    private CapsuleCollider2D cc;
     // Start is called before the first frame update
     void Start()
     {
         Destroy(gameObject, 2f);
+        cc = GetComponent<CapsuleCollider2D>();
     }
 
     void Update()
     {
         if (isAutoGuide)
         {
-            direction = transform.position - target;
-            direction.Normalize();
-            transform.rotation = Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(direction,Vector3.back),speedRotation * Time.deltaTime);
+            if (target != Vector3.zero)
+            {          
+                Debug.Log(target);
+                direction = target - transform.position;
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                Quaternion q = Quaternion.AngleAxis(angle, Vector3.back);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation,q,speedRotation * Time.deltaTime);
+            }
         }
-        else
-        {    
-            transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
-        }
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
     }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Meteore"))
+        Collider2D[] collider2Ds = new Collider2D[5];
+        if (cc.GetContacts(collider2Ds) > 0)
         {
+            if (other.gameObject.CompareTag("Meteore"))
+            {
+                
+                //other.gameObject.GetComponent<>()
+                //applyDamage(dmg, isFire ? dmgFire : 0, isIce ? slowImp : 0, isThunder ? thunderDmg : 0);
+                if(!isPiercing)
+                    DestroyImmediate(gameObject);
+                else
+                {
+                    if (isAutoGuide)
+                    {
+                        target = Vector3.zero;
+                    }
+                }
+            }
+        }
+        if (isAutoGuide && other.gameObject.CompareTag("Meteore") && target == Vector3.zero &&
+            !unauthorizedAutoGuide.Contains(other.GetInstanceID()))
+        {
+            unauthorizedAutoGuide.Add(other.GetInstanceID());
             target = other.transform.position;
+        }
+
+        if (isBouncing && other.gameObject.CompareTag("Wall"))
+        {
+            //If mur Top ou Bot change Y
+            //If mur Right ou Left change X
         }
     }
 
+
+
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Meteore"))
+        if (other.gameObject.CompareTag("Meteore"))
         {
             target = Vector3.zero;
         }

@@ -25,7 +25,14 @@ public class CharacterController : MonoBehaviour
 
     private Vector3 direction;
 
+    public float bonusMultiplier = 1;
     public bool hasMutishot = false;
+
+    public bool hasChargingShot = false;
+    private float chargingMultiplier = 1;
+    private float maxChargingMultiplier = 2;
+    private float stepForChargingShot = 0.01f;
+    private bool isChargingShot = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,8 +48,24 @@ public class CharacterController : MonoBehaviour
     {
         Movement();
 
-        if(Input.GetButton("Fire1"))
-            Fire();
+        if(!hasChargingShot){
+            if(Input.GetButton("Fire1"))
+                Fire();
+        }
+        else
+        {
+            if (Input.GetButton("Fire1"))
+            {
+                isChargingShot = true;
+                chargingMultiplier = chargingMultiplier <= maxChargingMultiplier ? chargingMultiplier + stepForChargingShot : chargingMultiplier;
+            }
+            if (isChargingShot && !Input.GetButton("Fire1"))
+            {
+                chargingMultiplier = 1;
+                isChargingShot = false;
+                Fire();
+            }
+        }
         if(Input.GetButton("Fire2"))
             Hit();
     }
@@ -76,7 +99,7 @@ public class CharacterController : MonoBehaviour
 
     void Fire()
     {
-        Instantiate(projectilePrefab,transform.position, Quaternion.identity);
+
         if (hasMutishot)
         {
             for (float position = -1; position <=1; position += 1)
@@ -85,12 +108,23 @@ public class CharacterController : MonoBehaviour
                 Vector3 dir = new Vector3((float) Math.Cos(alpha), (float) Math.Sin(alpha), 0);
                 GameObject newShot = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
                 newShot.GetComponent<Projectile>().direction= dir;
+                newShot.GetComponent<Projectile>().dmg *= (chargingMultiplier * bonusMultiplier);
             }
+        }
+        else
+        {
+            GameObject newShot = Instantiate(projectilePrefab,transform.position, Quaternion.identity);
+            newShot.GetComponent<Projectile>().dmg *= (chargingMultiplier * bonusMultiplier);
         }
     }
 
     void Hit()
     {
         Debug.Log("Hit");
+    }
+
+    void activeGunBonusDamage()
+    {
+        bonusMultiplier = 2;
     }
 }
