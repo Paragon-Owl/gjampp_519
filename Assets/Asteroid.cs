@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -10,12 +11,14 @@ public class Asteroid : MonoBehaviour
     public int imgPerSec = 30;
     public float timeSinceLastUpdate;
     public bool isSynch = false;
-
+    public static int pointEarned = 0;
+    public static float pointMultiplier = 1f;
     public float health = 100;
 
     // Start is called before the first frame update
     void Start()
     {
+        Destroy(gameObject,10);
         timeSinceLastUpdate = 0;
         isSynch = false;
     }
@@ -32,7 +35,12 @@ public class Asteroid : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.down, speed * (Time.time - timeSinceLastUpdate));
 
             timeSinceLastUpdate = Time.time;
+        }
 
+        if (health <= 0)
+        {
+            DeserializeJson.instance.points += (int)(pointEarned*pointMultiplier);
+            Destroy(gameObject);
         }
     }
 
@@ -56,6 +64,11 @@ public class Asteroid : MonoBehaviour
         }
     }
 
+    public void applyKnock(float knockForce)
+    {
+        transform.position = new Vector3(transform.position.x,transform.position.y - knockForce, transform.position.z);
+    }
+    
     private IEnumerator applySlow(float slowImp)
     {
         speed -= slowImp;

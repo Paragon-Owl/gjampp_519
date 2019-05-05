@@ -15,13 +15,14 @@ public class Projectile : MonoBehaviour
     public static bool isPiercing = false;
 
     public float dmg = 10;
+    public float totalMultiplier = 1f;
     public Vector3 direction = Vector3.up;
     private Vector3 target = Vector3.zero;
     private List<int> asteroidAlreadyCollided = new List<int>();
 
-    private int fireDmg;
-    private int slowImp;
-    private int thunderDmg;
+    public float fireDmg = 0.5f;
+    public float slowImp = 3f;
+    public float thunderDmg = 1f;
 
     private CapsuleCollider2D cc;
 
@@ -58,10 +59,11 @@ public class Projectile : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Meteore") && !asteroidAlreadyCollided.Contains(other.GetInstanceID()))
             {
-                other.gameObject.GetComponent<Asteroid>().applyDmg(dmg, isFire ? fireDmg : 0, isIce ? slowImp : 0,
-                    isThunder ? thunderDmg : 0);
+                other.gameObject.GetComponent<Asteroid>().applyDmg(dmg * totalMultiplier,
+                    isFire ? fireDmg * totalMultiplier : 0, isIce ? slowImp : 0,
+                    isThunder ? thunderDmg * totalMultiplier : 0);
                 if (!isPiercing)
-                    DestroyImmediate(gameObject);
+                    Destroy(gameObject);
                 else
                 {
                     if (isAutoGuide)
@@ -83,6 +85,7 @@ public class Projectile : MonoBehaviour
 
         if (isBouncing && other.gameObject.CompareTag("Wall"))
         {
+            //TODO
             //If mur Top ou Bot change Y
             //If mur Right ou Left change X
         }

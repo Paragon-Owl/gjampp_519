@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -7,18 +6,20 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance = new GameManager();
     public const int NB_AMJ = 9;
     public const int NB_AMM = 80;
     public const int NB_LVL_BETWEEN_AMJ = 10;
     public const int NB_LVL = 100;
-    
+
 
     public static List<AMJ.GunUpgrade> gunUpgradeList = new List<AMJ.GunUpgrade>(NB_AMJ);
     public static List<AMJ.SwordUpgrade> swordUpgradeList = new List<AMJ.SwordUpgrade>(NB_AMJ);
-    public static List<GameObject> otherUpgradeList = new List<GameObject>(NB_AMJ);
+    public static List<AMJ.OtherUpgrade> otherUpgradeList = new List<AMJ.OtherUpgrade>(NB_AMJ);
 
     public static int indexGunUpgradeList = 0;
     public static int indexSwordUpgradeList = 0;
@@ -30,22 +31,30 @@ public class GameManager : MonoBehaviour
 
     public static int indexStatUpgradeList = 0;
     public string gameScene;
+    public static float gameTime = 150f;
+    public float currentGameTime = 0f;
+    public float startGameTime;
+    private bool endOfGame = false;
     private static string urlRequestPost = "http://makorj.fr/gjpp0519/saveGame.php?PLAYER_NAME=";
     private static string urlRequestGet = "http://makorj.fr/gjpp0519/requestGame.php";
 
-
-    private void Start() {
-
+    private GameManager()
+    {
+        if(instance == null )
+            instance = this;
+    }
+    
+    private void Start()
+    {
         StartCoroutine(LoadMenuScene());
     }
 
     void Update()
     {
-        // Press the space key to start coroutine
-        if (Input.GetKeyDown(KeyCode.Space))
+        currentGameTime = Time.time - startGameTime;
+        if (currentGameTime > gameTime)
         {
-            // Use a coroutine to load the Scene in the background
-            StartCoroutine(LoadYourAsyncScene());
+            endOfGame = true;
         }
     }
 
@@ -82,7 +91,6 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
-
         Debug.Log("Loaded");
     }
 
@@ -91,6 +99,7 @@ public class GameManager : MonoBehaviour
         int compteur = 0;
         List<AMJ.GunUpgrade> amjGunAvailable = initMappingIndexGunUpgrade();
         List<AMJ.SwordUpgrade> amjSwordAvailable = initMappingIndexSwordUpgrade();
+        List<AMJ.OtherUpgrade> amjOtherAvailable = initMappingIndexOtherUpgrade();
         while (compteur < NB_LVL)
         {
             long rand = PRNG.getNextValue();
@@ -103,6 +112,10 @@ public class GameManager : MonoBehaviour
                 choice = (int) (rand % amjSwordAvailable.Count);
                 swordUpgradeList.Add(amjSwordAvailable[choice]);
                 amjSwordAvailable.Remove(amjSwordAvailable[choice]);
+                rand = PRNG.getNextValue();
+                choice = (int) (rand % amjOtherAvailable.Count);
+                otherUpgradeList.Add(amjOtherAvailable[choice]);
+                amjOtherAvailable.Remove(amjOtherAvailable[choice]);
             }
             else
             {
@@ -118,6 +131,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     private void loadHistoric(string instanceHistorics)
     {
         int index = 0;
@@ -127,16 +141,18 @@ public class GameManager : MonoBehaviour
             {
                 switch (choice)
                 {
-                        case '1':
-                            AMJ.applyGunUpgrade(gunUpgradeList[indexGunUpgradeList]);
-                            indexGunUpgradeList++;
-                            break;
-                        case '2':
-                            indexSwordUpgradeList++;
-                            break;
-                        case '3':
-                            indexOtherUpgradeList++;
-                            break;
+                    case '1':
+                        AMJ.applyGunUpgrade(gunUpgradeList[indexGunUpgradeList]);
+                        indexGunUpgradeList++;
+                        break;
+                    case '2':
+                        AMJ.applySwordUpgrade(swordUpgradeList[indexSwordUpgradeList]);
+                        indexSwordUpgradeList++;
+                        break;
+                    case '3':
+                        AMJ.applyOtherUpgrade(otherUpgradeList[indexOtherUpgradeList]);
+                        indexOtherUpgradeList++;
+                        break;
                 }
             }
             else
@@ -194,6 +210,22 @@ public class GameManager : MonoBehaviour
         };
         return dictionnary;
     }
+    private List<AMJ.OtherUpgrade> initMappingIndexOtherUpgrade()
+    {
+        List<AMJ.OtherUpgrade> dictionnary = new List<AMJ.OtherUpgrade>(NB_AMJ)
+        {
+            AMJ.OtherUpgrade.GameTime,
+            AMJ.OtherUpgrade.GameTime,
+            AMJ.OtherUpgrade.GameTime,
+            AMJ.OtherUpgrade.PointEarned,
+            AMJ.OtherUpgrade.PointEarned,
+            AMJ.OtherUpgrade.PointEarned,
+            AMJ.OtherUpgrade.Shield,
+            AMJ.OtherUpgrade.Shield,
+            AMJ.OtherUpgrade.Shield
+        };
+        return dictionnary;
+    }
 
     private static StatUpgradeStruct chooseSecondStatUpgrade(StatUpgradeStruct firstStatUpgrade)
     {
@@ -247,6 +279,18 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region GameManagement
+
+    public void PlayGame()
+    {
+        StartCoroutine(LoadYourAsyncScene());
+        SpawnerController.StartSpawn();
+        Asteroid.pointEarned = 10;
+        startGameTime = Time.time;
+    }
+
+    #endregion
+
     #region Debug
 
     public void debug_showUpgradeList()
@@ -264,6 +308,7 @@ public class GameManager : MonoBehaviour
         writer.WriteLine(s);
         writer.Close();
     }
+
     public void debug_writeUpgradeList()
     {
         StreamWriter writer = new StreamWriter("debug.out", true);
@@ -284,6 +329,7 @@ public class GameManager : MonoBehaviour
             basic2 += stat2UpgradeList[i].type + "\n";
             basic3 += stat3UpgradeList[i].type + "\n";
         }
+
         writer.Write(gun);
         writer.Write(sword);
         writer.Write(basic1);
@@ -291,5 +337,6 @@ public class GameManager : MonoBehaviour
         writer.Write(basic3);
         writer.Close();
     }
+
     #endregion
 }
