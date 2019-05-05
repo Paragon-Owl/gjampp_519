@@ -97,10 +97,18 @@ MonoBehaviour:
   acceleration: 0.84
   baseAcceleration: 0.503
   decaySpeed: 0.66
+  dragSpeed: 360
   projectilePrefab: {fileID: 4309887150262309680, guid: 63b8214a9d9b3cf48ae7bb151c270be9,
     type: 3}
   minBoundaryBorder: {x: 0.7, y: 0.65}
   maxBoundaryBorder: {x: -0.7, y: -2.2}
+  gunBonusMultiplier: 1
+  hasMutishot: 0
+  hasChargingShot: 0
+  hasDash: 1
+  hasChargingSword: 0
+  hasKnockbackSword: 0
+  dashPower: 1.5
 --- !u!70 &5019648859606167037
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

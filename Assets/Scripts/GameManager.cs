@@ -31,6 +31,12 @@ public class GameManager : MonoBehaviour
     private static string urlRequestPost = "http://makorj.fr/gjpp0519/saveGame.php?PLAYER_NAME=";
     private static string urlRequestGet = "http://makorj.fr/gjpp0519/requestGame.php";
 
+
+    private void Start() {
+
+        StartCoroutine(LoadMenuScene());
+    }
+
     void Update()
     {
         // Press the space key to start coroutine
@@ -39,6 +45,12 @@ public class GameManager : MonoBehaviour
             // Use a coroutine to load the Scene in the background
             StartCoroutine(LoadYourAsyncScene());
         }
+    }
+
+    IEnumerator LoadMenuScene()
+    {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("Scenes/Menu", LoadSceneMode.Additive);
     }
 
     #region Initialisation

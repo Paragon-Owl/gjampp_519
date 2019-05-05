@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4309887150002787796}
   - component: {fileID: 4309887150002787787}
-  - component: {fileID: 5522652684762535860}
   m_Layer: 0
   m_Name: New Sprite
   m_TagString: Untagged
@@ -49,7 +48,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: e54294f12333adb42b2dd354e4ab2a4f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,24 +79,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5522652684762535860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4309887150002787797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8f6d3c6e4250e84192f5b34ce9e71bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  glowColor: {r: 1, g: 1, b: 1, a: 1}
-  glowBrightness: 2
-  outlineWidth: 1
-  alphaThreshold: 0.01
-  drawOutside: 0
-  enableInstancing: 0
 --- !u!1 &4309887150262309680
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,7 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   speedRotation: 50
-  isAutoGuide: 1
+  dmg: 10
   direction: {x: 0, y: 1, z: 0}
 --- !u!58 &8416991285801561861
 CircleCollider2D:

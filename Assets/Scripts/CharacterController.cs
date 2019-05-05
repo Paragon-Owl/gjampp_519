@@ -14,6 +14,10 @@ public class CharacterController : MonoBehaviour
     [SerializeField][Range(0f,1f)] public float baseAcceleration = 0.1f;
     [SerializeField][Range(0f,1f)] public float decaySpeed = 0.1f;
 
+    [Header("Rotation")]
+    [SerializeField][Range(0,360)] public int dragSpeed = 30;
+
+
     [SerializeField] public GameObject projectilePrefab;
 
 
@@ -25,7 +29,7 @@ public class CharacterController : MonoBehaviour
 
     private Vector3 direction;
 
-    public float bonusMultiplier = 1;
+    public float gunBonusMultiplier = 1;
     public bool hasMutishot = false;
 
     public bool hasChargingShot = false;
@@ -33,6 +37,15 @@ public class CharacterController : MonoBehaviour
     private float maxChargingMultiplier = 2;
     private float stepForChargingShot = 0.01f;
     private bool isChargingShot = false;
+
+    public bool hasDash = false;
+    public bool hasChargingSword = false;
+    public bool hasKnockbackSword = false;
+    private bool isChargingSword = false;
+    private float stepForChargingSword = 0.01f;
+    public float dashPower = 1.5f;
+    private float swordBonusMultiplier = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,25 +62,42 @@ public class CharacterController : MonoBehaviour
         Movement();
 
         if(!hasChargingShot){
-            if(Input.GetButton("Fire1"))
+            if(Input.GetButton("Fire1") && !Input.GetButtonDown("Fire2"))
                 Fire();
         }
         else
         {
-            if (Input.GetButton("Fire1"))
+            if (Input.GetButton("Fire1") && !Input.GetButtonDown("Fire2"))
             {
                 isChargingShot = true;
                 chargingMultiplier = chargingMultiplier <= maxChargingMultiplier ? chargingMultiplier + stepForChargingShot : chargingMultiplier;
             }
-            if (isChargingShot && !Input.GetButton("Fire1"))
+            if (isChargingShot && !Input.GetButton("Fire1") && !Input.GetButtonDown("Fire2"))
             {
+                Fire();
                 chargingMultiplier = 1;
                 isChargingShot = false;
-                Fire();
             }
         }
-        if(Input.GetButton("Fire2"))
-            Hit();
+
+        if(!hasChargingSword){
+            if(Input.GetButton("Fire2") && !Input.GetButtonDown("Fire1"))
+                Hit();
+        }
+        else
+        {
+            if (Input.GetButton("Fire2") && !Input.GetButtonDown("Fire1"))
+            {
+                isChargingSword = true;
+                chargingMultiplier = chargingMultiplier <= maxChargingMultiplier ? chargingMultiplier + stepForChargingSword : chargingMultiplier;
+            }
+            if (isChargingShot && !Input.GetButton("Fire1") && !Input.GetButtonDown("Fire2"))
+            {
+                Hit();
+                chargingMultiplier = 1;
+                isChargingSword = false;
+            }
+        }
     }
 
     void Movement()
@@ -80,16 +110,23 @@ public class CharacterController : MonoBehaviour
         direction.y += (val * ( (speed * baseAcceleration) + (speed * acceleration))) * Time.deltaTime;
 
         if(Input.GetKey(KeyCode.LeftArrow))
-            direction.x -= acceleration * Time.deltaTime;
+            direction.x -= ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;
         if(Input.GetKey(KeyCode.RightArrow))
-            direction.x += acceleration * Time.deltaTime;
+            direction.x += ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;
         if(Input.GetKey(KeyCode.UpArrow))
-            direction.y += acceleration * Time.deltaTime;
+            direction.y += ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;
         if(Input.GetKey(KeyCode.DownArrow))
-            direction.y -= acceleration * Time.deltaTime;
+            direction.y -= ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;
 
         direction.x = Mathf.Clamp(direction.x, -speed, speed);
         direction.y = Mathf.Clamp(direction.y, -speed, speed);
+
+
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion q = Quaternion.AngleAxis(angle-90, Vector3.forward);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, dragSpeed * Time.deltaTime);
+
 
         Vector3 newPos = transform.position;
         newPos.x = Mathf.Clamp(newPos.x+direction.x, minBoundary.x + minBoundaryBorder.x, maxBoundary.x + maxBoundaryBorder.x);
@@ -108,23 +145,28 @@ public class CharacterController : MonoBehaviour
                 Vector3 dir = new Vector3((float) Math.Cos(alpha), (float) Math.Sin(alpha), 0);
                 GameObject newShot = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
                 newShot.GetComponent<Projectile>().direction= dir;
-                newShot.GetComponent<Projectile>().dmg *= (chargingMultiplier * bonusMultiplier);
+                newShot.GetComponent<Projectile>().dmg *= (chargingMultiplier * gunBonusMultiplier);
             }
         }
         else
         {
             GameObject newShot = Instantiate(projectilePrefab,transform.position, Quaternion.identity);
-            newShot.GetComponent<Projectile>().dmg *= (chargingMultiplier * bonusMultiplier);
+            newShot.GetComponent<Projectile>().dmg *= (chargingMultiplier * gunBonusMultiplier);
         }
     }
 
     void Hit()
     {
-        Debug.Log("Hit");
+        if(hasDash)
+        {
+            direction += transform.up * dashPower;
+        }
+
+
     }
 
     void activeGunBonusDamage()
     {
-        bonusMultiplier = 2;
+        gunBonusMultiplier = 2;
     }
 }
