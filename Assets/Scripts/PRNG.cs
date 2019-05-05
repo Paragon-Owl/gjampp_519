@@ -37,4 +37,9 @@ public class PRNG
 
         return -1;
     }
+
+    public static long getMax()
+    {
+        return _m;
+    }
 }

@@ -11,7 +11,6 @@ public class Stat
         DamageShot,
         DamageSword,
         AttackSpeed
-
     }
 
 }

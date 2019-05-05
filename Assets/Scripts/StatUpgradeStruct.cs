@@ -15,7 +15,11 @@ public class StatUpgradeStruct
 
     static public StatUpgradeStruct GetFromPool(long randomValue)
     {
-        return new StatUpgradeStruct((Stat.Type)(randomValue%Stat.NB_STAT_TYPE_ENUM), 1 + ((randomValue/long.MaxValue)/2f));
+
+        float rapport = randomValue / (PRNG.getMax()*1f) ;
+        return new StatUpgradeStruct((Stat.Type)(randomValue%Stat.NB_STAT_TYPE_ENUM), (1f + rapport/2f) );
     }
+    
+    
 
 }

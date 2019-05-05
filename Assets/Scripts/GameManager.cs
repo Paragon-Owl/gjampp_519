@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -12,7 +14,7 @@ public class GameManager : MonoBehaviour
     public const int NB_AMM = 80;
     public const int NB_LVL_BETWEEN_AMJ = 10;
     public const int NB_LVL = 100;
-
+    
 
     public static List<AMJ.GunUpgrade> gunUpgradeList = new List<AMJ.GunUpgrade>(NB_AMJ);
     public static List<AMJ.SwordUpgrade> swordUpgradeList = new List<AMJ.SwordUpgrade>(NB_AMJ);
@@ -73,6 +75,8 @@ public class GameManager : MonoBehaviour
 
         PRNG.init(DeserializeJson.instance.seed);
         initMapWithSeed();
+        debug_writeUpgradeList();
+        loadHistoric(DeserializeJson.instance.historics);
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)
         {
@@ -93,7 +97,6 @@ public class GameManager : MonoBehaviour
             if (compteur != 0 && compteur % NB_LVL_BETWEEN_AMJ == 0)
             {
                 int choice = (int) (rand % amjGunAvailable.Count);
-                Debug.Log("Count : " + choice);
                 gunUpgradeList.Add(amjGunAvailable[choice]);
                 amjGunAvailable.Remove(amjGunAvailable[choice]);
                 rand = PRNG.getNextValue();
@@ -113,8 +116,49 @@ public class GameManager : MonoBehaviour
 
             compteur++;
         }
+    }
 
-        debug_showUpgradeList();
+    private void loadHistoric(string instanceHistorics)
+    {
+        int index = 0;
+        foreach (char choice in instanceHistorics)
+        {
+            if (index != 0 && index % NB_LVL_BETWEEN_AMJ == 0)
+            {
+                switch (choice)
+                {
+                        case '1':
+                            AMJ.applyGunUpgrade(gunUpgradeList[indexGunUpgradeList]);
+                            indexGunUpgradeList++;
+                            break;
+                        case '2':
+                            indexSwordUpgradeList++;
+                            break;
+                        case '3':
+                            indexOtherUpgradeList++;
+                            break;
+                }
+            }
+            else
+            {
+                switch (choice)
+                {
+                    case '1':
+                        CharacterController.applyStatUpgrade(stat1UpgradeList[indexStatUpgradeList]);
+                        break;
+                    case '2':
+                        CharacterController.applyStatUpgrade(stat2UpgradeList[indexStatUpgradeList]);
+                        break;
+                    case '3':
+                        CharacterController.applyStatUpgrade(stat3UpgradeList[indexStatUpgradeList]);
+                        break;
+                }
+
+                indexStatUpgradeList++;
+            }
+
+            index++;
+        }
     }
 
     private List<AMJ.GunUpgrade> initMappingIndexGunUpgrade()
@@ -214,5 +258,38 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void debug_writeHistoricAct(string s)
+    {
+        StreamWriter writer = new StreamWriter("debug.out", true);
+        writer.WriteLine(s);
+        writer.Close();
+    }
+    public void debug_writeUpgradeList()
+    {
+        StreamWriter writer = new StreamWriter("debug.out", true);
+        string gun = "GunUpgrade : \n";
+        string sword = "SwordUpgrade : \n";
+        string basic1 = "StatUpgrade 1 : \n";
+        string basic2 = "StatUpgrade 2 : \n";
+        string basic3 = "StatUpgrade 3 : \n";
+        for (int i = 0; i < 9; i++)
+        {
+            gun += gunUpgradeList[i] + "\n";
+            sword += swordUpgradeList[i] + "\n";
+        }
+
+        for (int i = 0; i < NB_AMM; i++)
+        {
+            basic1 += stat1UpgradeList[i].type + "\n";
+            basic2 += stat2UpgradeList[i].type + "\n";
+            basic3 += stat3UpgradeList[i].type + "\n";
+        }
+        writer.Write(gun);
+        writer.Write(sword);
+        writer.Write(basic1);
+        writer.Write(basic2);
+        writer.Write(basic3);
+        writer.Close();
+    }
     #endregion
 }

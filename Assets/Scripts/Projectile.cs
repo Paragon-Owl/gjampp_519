@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-
     [SerializeField] public float speed = 1;
     public float speedRotation = 1;
 
@@ -18,12 +17,14 @@ public class Projectile : MonoBehaviour
     public float dmg = 10;
     public Vector3 direction = Vector3.up;
     private Vector3 target = Vector3.zero;
-    private List<int> unauthorizedAutoGuide = new List<int>();
-    
+    private List<int> asteroidAlreadyCollided = new List<int>();
+
     private int fireDmg;
     private int slowImp;
     private int thunderDmg;
+
     private CapsuleCollider2D cc;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,15 +37,17 @@ public class Projectile : MonoBehaviour
         if (isAutoGuide)
         {
             if (target != Vector3.zero)
-            {          
+            {
                 Debug.Log(target);
                 direction = target - transform.position;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 Quaternion q = Quaternion.AngleAxis(angle, Vector3.back);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation,q,speedRotation * Time.deltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, q, speedRotation * Time.deltaTime);
             }
         }
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
+
+        transform.position =
+            Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
     }
 
 
@@ -53,12 +56,11 @@ public class Projectile : MonoBehaviour
         Collider2D[] collider2Ds = new Collider2D[5];
         if (cc.GetContacts(collider2Ds) > 0)
         {
-            if (other.gameObject.CompareTag("Meteore"))
+            if (other.gameObject.CompareTag("Meteore") && !asteroidAlreadyCollided.Contains(other.GetInstanceID()))
             {
-                
-                //other.gameObject.GetComponent<>()
-                //applyDamage(dmg, isFire ? dmgFire : 0, isIce ? slowImp : 0, isThunder ? thunderDmg : 0);
-                if(!isPiercing)
+                other.gameObject.GetComponent<Asteroid>().applyDmg(dmg, isFire ? fireDmg : 0, isIce ? slowImp : 0,
+                    isThunder ? thunderDmg : 0);
+                if (!isPiercing)
                     DestroyImmediate(gameObject);
                 else
                 {
@@ -67,12 +69,15 @@ public class Projectile : MonoBehaviour
                         target = Vector3.zero;
                     }
                 }
+
+                asteroidAlreadyCollided.Add(other.GetInstanceID());
             }
         }
+
         if (isAutoGuide && other.gameObject.CompareTag("Meteore") && target == Vector3.zero &&
-            !unauthorizedAutoGuide.Contains(other.GetInstanceID()))
+            !asteroidAlreadyCollided.Contains(other.GetInstanceID()))
         {
-            unauthorizedAutoGuide.Add(other.GetInstanceID());
+            asteroidAlreadyCollided.Add(other.GetInstanceID());
             target = other.transform.position;
         }
 
@@ -82,7 +87,6 @@ public class Projectile : MonoBehaviour
             //If mur Right ou Left change X
         }
     }
-
 
 
     private void OnTriggerExit2D(Collider2D other)
