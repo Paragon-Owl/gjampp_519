@@ -70,7 +70,7 @@ MonoBehaviour:
     overrideState: 1
     value: 0.34
   fastMode:
-    overrideState: 1
+    overrideState: 0
     value: 0
 --- !u!114 &114255652250369130
 MonoBehaviour:

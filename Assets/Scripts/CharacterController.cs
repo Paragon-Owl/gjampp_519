@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    [Header("Movement")] [SerializeField] public static float speed = 1;
+    [Header("Movement")] [SerializeField] public static float speed = 5;
 
     [Header("Acceleration")] [SerializeField] [Range(0f, 1f)]
     public static float acceleration = 0.2f;
@@ -140,6 +140,7 @@ public class CharacterController : MonoBehaviour
 
     void Movement()
     {
+
         direction = Vector3.MoveTowards(direction, Vector2.zero, speed * decaySpeed * Time.deltaTime);
 
         float val = Input.GetAxis("Horizontal");
