@@ -43,13 +43,13 @@ public class AMJ : MonoBehaviour
         switch (gunUpgrade)
         {
             case GunUpgrade.Multishot:
-                CharacterController.hasMutishot = true;
+                CharacterController.Instance.hasMutishot = true;
                 break;
             case GunUpgrade.Autoguide:
                 Projectile.isAutoGuide = true;
                 break;
             case GunUpgrade.Charging:
-                CharacterController.hasChargingShot = true;
+                CharacterController.Instance.hasChargingShot = true;
                 break;
             case GunUpgrade.Ice:
                 Projectile.isIce = true;
@@ -61,7 +61,7 @@ public class AMJ : MonoBehaviour
                 Projectile.isThunder = true;
                 break;
             case GunUpgrade.Damage:
-                CharacterController.activeGunBonusDamage();
+                CharacterController.Instance.activeGunBonusDamage();
                 break;
             case GunUpgrade.Piercing:
                 Projectile.isPiercing = true;
@@ -79,31 +79,31 @@ public class AMJ : MonoBehaviour
         switch (swordUpgrade)
         {
             case SwordUpgrade.Knock:
-                CharacterController.hasKnockbackSword = true;
+                CharacterController.Instance.hasKnockbackSword = true;
                 break;
             case SwordUpgrade.Dash:
-                CharacterController.hasDash = true;
+                CharacterController.Instance.hasDash = true;
                 break;
             case SwordUpgrade.Charging:
-                CharacterController.hasChargingSword = true;
+                CharacterController.Instance.hasChargingSword = true;
                 break;
             case SwordUpgrade.Ice:
-                CharacterController.hasIceSword = true;
+                CharacterController.Instance.hasIceSword = true;
                 break;
             case SwordUpgrade.Fire:
-                CharacterController.hasFireSword = true;
+                CharacterController.Instance.hasFireSword = true;
                 break;
             case SwordUpgrade.Thunder:
-                CharacterController.hasThunderSword = true;
+                CharacterController.Instance.hasThunderSword = true;
                 break;
             case SwordUpgrade.Damage:
-                CharacterController.activeSwordBonusDamage();
+                CharacterController.Instance.activeSwordBonusDamage();
                 break;
             case SwordUpgrade.Critical:
-                CharacterController.hasCriticalDmg = true;
+                CharacterController.Instance.hasCriticalDmg = true;
                 break;
             case SwordUpgrade.Speed:
-                CharacterController.hasBonusSpeed = true;
+                CharacterController.Instance.hasBonusSpeed = true;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(swordUpgrade), swordUpgrade, null);
@@ -115,13 +115,13 @@ public class AMJ : MonoBehaviour
         switch (otherUpgrade)
         {
             case OtherUpgrade.GameTime:
-                GameManager.gameTime = GameManager.gameTime + 30;
+                GameManager.instance.gameTime = GameManager.instance.gameTime + 30;
                 break;
             case OtherUpgrade.PointEarned:
-                Asteroid.pointMultiplier = Asteroid.pointMultiplier * 1.5f;
+                GameManager.instance.pointMultiplier = GameManager.instance.pointMultiplier * 1.5f;
                 break;
             case OtherUpgrade.Shield:
-                CharacterController.shield++;
+                CharacterController.Instance.shield++;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(otherUpgrade), otherUpgrade, null);

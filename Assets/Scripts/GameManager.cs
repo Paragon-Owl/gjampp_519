@@ -15,28 +15,29 @@ public class GameManager : MonoBehaviour
     public const int NB_AMM = 80;
     public const int NB_LVL_BETWEEN_AMJ = 10;
     public const int NB_LVL = 100;
+    public int pointEarned = 0;
+    public float pointMultiplier = 1f;
+    
+    public List<AMJ.GunUpgrade> gunUpgradeList = new List<AMJ.GunUpgrade>(NB_AMJ);
+    public List<AMJ.SwordUpgrade> swordUpgradeList = new List<AMJ.SwordUpgrade>(NB_AMJ);
+    public List<AMJ.OtherUpgrade> otherUpgradeList = new List<AMJ.OtherUpgrade>(NB_AMJ);
 
+    public int indexGunUpgradeList = 0;
+    public int indexSwordUpgradeList = 0;
+    public int indexOtherUpgradeList = 0;
 
-    public static List<AMJ.GunUpgrade> gunUpgradeList = new List<AMJ.GunUpgrade>(NB_AMJ);
-    public static List<AMJ.SwordUpgrade> swordUpgradeList = new List<AMJ.SwordUpgrade>(NB_AMJ);
-    public static List<AMJ.OtherUpgrade> otherUpgradeList = new List<AMJ.OtherUpgrade>(NB_AMJ);
+    public List<StatUpgradeStruct> stat1UpgradeList = new List<StatUpgradeStruct>(NB_AMM);
+    public List<StatUpgradeStruct> stat2UpgradeList = new List<StatUpgradeStruct>(NB_AMM);
+    public List<StatUpgradeStruct> stat3UpgradeList = new List<StatUpgradeStruct>(NB_AMM);
 
-    public static int indexGunUpgradeList = 0;
-    public static int indexSwordUpgradeList = 0;
-    public static int indexOtherUpgradeList = 0;
-
-    public static List<StatUpgradeStruct> stat1UpgradeList = new List<StatUpgradeStruct>(NB_AMM);
-    public static List<StatUpgradeStruct> stat2UpgradeList = new List<StatUpgradeStruct>(NB_AMM);
-    public static List<StatUpgradeStruct> stat3UpgradeList = new List<StatUpgradeStruct>(NB_AMM);
-
-    public static int indexStatUpgradeList = 0;
+    public int indexStatUpgradeList = 0;
     public string gameScene;
-    public static float gameTime = 150f;
+    public float gameTime = 150f;
     public float currentGameTime = 0f;
     public float startGameTime;
     private bool endOfGame = false;
-    private static string urlRequestPost = "http://makorj.fr/gjpp0519/saveGame.php?PLAYER_NAME=";
-    private static string urlRequestGet = "http://makorj.fr/gjpp0519/requestGame.php";
+    private string urlRequestPost = "http://makorj.fr/gjpp0519/saveGame.php?PLAYER_NAME=";
+    private string urlRequestGet = "http://makorj.fr/gjpp0519/requestGame.php";
 
     private GameManager()
     {
@@ -46,7 +47,8 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
-        StartCoroutine(LoadMenuScene());
+        instance.PlayGame();
+        //StartCoroutine(LoadMenuScene());
     }
 
     void Update()
@@ -160,13 +162,13 @@ public class GameManager : MonoBehaviour
                 switch (choice)
                 {
                     case '1':
-                        CharacterController.applyStatUpgrade(stat1UpgradeList[indexStatUpgradeList]);
+                        CharacterController.Instance.applyStatUpgrade(stat1UpgradeList[indexStatUpgradeList]);
                         break;
                     case '2':
-                        CharacterController.applyStatUpgrade(stat2UpgradeList[indexStatUpgradeList]);
+                        CharacterController.Instance.applyStatUpgrade(stat2UpgradeList[indexStatUpgradeList]);
                         break;
                     case '3':
-                        CharacterController.applyStatUpgrade(stat3UpgradeList[indexStatUpgradeList]);
+                        CharacterController.Instance.applyStatUpgrade(stat3UpgradeList[indexStatUpgradeList]);
                         break;
                 }
 
@@ -285,7 +287,7 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(LoadYourAsyncScene());
         SpawnerController.StartSpawn();
-        Asteroid.pointEarned = 10;
+        pointEarned = 10;
         startGameTime = Time.time;
     }
 

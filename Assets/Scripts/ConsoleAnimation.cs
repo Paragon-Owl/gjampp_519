@@ -59,7 +59,7 @@ public class ConsoleAnimation : MonoBehaviour
         }
         else
         {
-            Debug.Log(timeStart);
+            //Debug.Log(timeStart);
         }
     }
 }

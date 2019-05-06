@@ -130,7 +130,11 @@ MonoBehaviour:
   speed: 5
   speedRotation: 50
   dmg: 10
+  totalMultiplier: 1
   direction: {x: 0, y: 1, z: 0}
+  fireDmg: 0.5
+  slowImp: 3
+  thunderDmg: 1
 --- !u!58 &8416991285801561861
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -189,7 +193,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.0029563233, y: 0.00012648106}

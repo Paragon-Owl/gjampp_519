@@ -7,49 +7,58 @@ using Random = UnityEngine.Random;
 
 public class CharacterController : MonoBehaviour
 {
-    [Header("Movement")] [SerializeField] public static float speed = 5;
+    public static CharacterController Instance = new CharacterController();
+    [Header("Movement")] [SerializeField] public float speed = 5;
+    [Header("Acceleration")]
+    [SerializeField] [Range(0f, 1f)] public float baseAcceleration = 0.1f;
+    [SerializeField] [Range(0f, 1f)] public float decaySpeed = 0.1f;
+    [SerializeField] [Range(0f, 1f)] public float acceleration = 0.2f;
+    [Header("Rotation")] [SerializeField] [Range(0, 360)]
+    public int dragSpeed = 30;
 
-    [Header("Acceleration")] [SerializeField] [Range(0f, 1f)]
-    public static float acceleration = 0.2f;
-    public static float timeForShot = 0.3f;
-    public static float basicGunDmgMultplier = 1f;
-    public static float basicSwordDmgMultplier = 1f;
-    public static float timeForReload = 0.5f;
-    public static float timeForAttack = 0.3f;
+    
+    [Header("Basic Upgrade")]
+    public float timeForShot = 0.3f;
+    public float basicGunDmgMultplier = 1f;
+    public float basicSwordDmgMultplier = 1f;
+    public float timeForReload = 0.5f;
+    public float timeForAttack = 0.3f;
 
     //Variable for GUN AMJ Upgrades
-    public static float gunBonusMultiplier = 1;
-    public static bool hasMutishot = false;
-    public static bool hasChargingShot = false;
+    [Header("Special GUN Upgrade")]
+    public float gunBonusMultiplier = 1;
+    public bool hasMutishot = false;
+    public bool hasChargingShot = false;
     
     //Other variable for Gun actions
-    [Header("Gun")]
+    [Header("Other parameter GUN")]
     public bool isReloading = false;
     public int maxAmmoAmount = 100;
     public int ammoAmount;
     public bool canShot = true;
-    private float gunChargingMultiplier = 1;
+    public float gunChargingMultiplier = 1;
     public float stepForChargingShot = 0.01f;
     public float maxGunChargingMultiplier = 2;
     public bool isChargingShot = false;
     public float startShotTime;
     
     //Variable for SWORD AMJ Upgrades
-    public static bool hasDash = false;
-    public static bool hasChargingSword = false;
-    public static bool hasKnockbackSword = false;
-    public static bool hasFireSword = false;
-    public static bool hasIceSword = false;
-    public static bool hasThunderSword = false;
-    public static bool hasBonusSpeed = false;
-    public static bool hasCriticalDmg = false;
-    public static float swordBonusMultiplier = 1f;
+    [Header("Special SWORD Upgrade")]
+    public bool hasDash = false;
+    public bool hasChargingSword = false;
+    public bool hasKnockbackSword = false;
+    public bool hasFireSword = false;
+    public bool hasIceSword = false;
+    public bool hasThunderSword = false;
+    public bool hasBonusSpeed = false;
+    public bool hasCriticalDmg = false;
+    public float swordBonusMultiplier = 1f;
     
     //Other variable for Sword Actions
-    [Header("SWORD")]
+    [Header("Other parameter SWORD")]
     public float swordChargingMultiplier = 1;
-    private bool isChargingSword = false;
-    private float stepForChargingSword = 0.01f;
+    public bool isChargingSword = false;
+    public float stepForChargingSword = 0.01f;
     public float maxSwordChargingMultiplier = 2;
     
     public float durationSwordAnimAttack = 0.1f;
@@ -59,26 +68,15 @@ public class CharacterController : MonoBehaviour
     public float startAttackTime;
     public float dashPower = 1.5f;
     public List<CapsuleCollider2D> SwordCollider2Ds;
-    private float fireDmg = 0.5f;
-    private float slowImp = 3f;
-    private float thunderDmg = 1f;
+    public float fireDmg = 0.5f;
+    public float slowImp = 3f;
+    public float thunderDmg = 1f;
     public float swordDmg = 10f;
     public float speedBonusMultiplier = 2f;
     public float durationSpeedBonus = 0.3f;
     public float startSpeedBonus;
-
     
-    [Header("Acceleration")]
-    [SerializeField] [Range(0f, 1f)] public static float baseAcceleration = 0.1f;
-    [SerializeField] [Range(0f, 1f)] public float decaySpeed = 0.1f;
-
-    [Header("Rotation")] [SerializeField] [Range(0, 360)]
-    public int dragSpeed = 30;
-
-
     [SerializeField] public GameObject projectilePrefab;
-
-
     private Vector2 minBoundary;
     private Vector2 maxBoundary;
     public Vector2 minBoundaryBorder;
@@ -86,12 +84,16 @@ public class CharacterController : MonoBehaviour
     private Camera gameCamera;
 
     private Vector3 direction;
+    public int shield = 0;
 
-
+    private CharacterController()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
     
-
-    public static int shield = 0;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -141,6 +143,10 @@ public class CharacterController : MonoBehaviour
         if (ammoAmount <= 0)
         {
             StartCoroutine(reload());
+        }
+        if (Time.time - startShotTime > timeForShot)
+        {
+            canShot = true;
         }
     }
 
@@ -233,13 +239,6 @@ public class CharacterController : MonoBehaviour
             startShotTime = Time.time;
             ammoAmount--;
         }
-        else if (!canShot)
-        {
-            if (Time.time - startShotTime > timeForShot)
-            {
-                canShot = true;
-            }
-        }
     }
 
     void Hit()
@@ -284,17 +283,17 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    public static void activeGunBonusDamage()
+    public void activeGunBonusDamage()
     {
         gunBonusMultiplier = 2;
     }
 
-    public static void activeSwordBonusDamage()
+    public void activeSwordBonusDamage()
     {
         swordBonusMultiplier = 2;
     }
 
-    public static void applyStatUpgrade(StatUpgradeStruct stat)
+    public void applyStatUpgrade(StatUpgradeStruct stat)
     {
         switch (stat.type)
         {

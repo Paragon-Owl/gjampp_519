@@ -303,33 +303,6 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
---- !u!1 &1188801462 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6827075454169432154, guid: e918e13a079be3c4e9acb063a123b81a,
-    type: 3}
-  m_PrefabInstance: {fileID: 6827075454338541492}
-  m_PrefabAsset: {fileID: 0}
---- !u!50 &1188801467
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188801462}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &1919294718
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +476,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c00f9a7a4fa29ad4684b78d8a2df27a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AsteroidPrefab: {fileID: 1188801462}
+  AsteroidPrefab: {fileID: 6827075454169432154, guid: e918e13a079be3c4e9acb063a123b81a,
+    type: 3}
 --- !u!1001 &5019648859609778001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -570,6 +544,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5019648859606167035, guid: 05c1109de59b38c44852be9b14d46b59,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5019648859606167035, guid: 05c1109de59b38c44852be9b14d46b59,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05c1109de59b38c44852be9b14d46b59, type: 3}

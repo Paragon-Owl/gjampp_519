@@ -11,8 +11,6 @@ public class Asteroid : MonoBehaviour
     public int imgPerSec = 30;
     public float timeSinceLastUpdate;
     public bool isSynch = false;
-    public static int pointEarned = 0;
-    public static float pointMultiplier = 1f;
     public float health = 100;
 
     // Start is called before the first frame update
@@ -39,7 +37,7 @@ public class Asteroid : MonoBehaviour
 
         if (health <= 0)
         {
-            DeserializeJson.instance.points += (int)(pointEarned*pointMultiplier);
+            DeserializeJson.instance.points += (int)(GameManager.instance.pointEarned*GameManager.instance.pointMultiplier);
             Destroy(gameObject);
         }
     }
