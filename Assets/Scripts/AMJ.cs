@@ -46,28 +46,28 @@ public class AMJ : MonoBehaviour
                 CharacterController.Instance.hasMutishot = true;
                 break;
             case GunUpgrade.Autoguide:
-                Projectile.isAutoGuide = true;
+                CharacterController.Instance.hasAutoGuidShot = true;
                 break;
             case GunUpgrade.Charging:
                 CharacterController.Instance.hasChargingShot = true;
                 break;
             case GunUpgrade.Ice:
-                Projectile.isIce = true;
+                CharacterController.Instance.hasIceShot = true;
                 break;
             case GunUpgrade.Fire:
-                Projectile.isFire = true;
+                CharacterController.Instance.hasFireShot = true;
                 break;
             case GunUpgrade.Thunder:
-                Projectile.isThunder = true;
+                CharacterController.Instance.hasThunderShot = true;
                 break;
             case GunUpgrade.Damage:
                 CharacterController.Instance.activeGunBonusDamage();
                 break;
             case GunUpgrade.Piercing:
-                Projectile.isPiercing = true;
+                CharacterController.Instance.hasPiercingShot = true;
                 break;
             case GunUpgrade.Bouncing:
-                Projectile.isBouncing = true;
+                CharacterController.Instance.hasBouncingShot = true;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(gunUpgrade), gunUpgrade, null);

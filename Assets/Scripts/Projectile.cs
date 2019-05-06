@@ -7,13 +7,6 @@ public class Projectile : MonoBehaviour
     [SerializeField] public float speed = 1;
     public float speedRotation = 1;
 
-    public static bool isAutoGuide = false;
-    public static bool isFire = false;
-    public static bool isIce = false;
-    public static bool isThunder = false;
-    public static bool isBouncing = false;
-    public static bool isPiercing = false;
-
     public float dmg = 10;
     public float totalMultiplier = 1f;
     public Vector3 direction = Vector3.up;
@@ -35,7 +28,7 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        if (isAutoGuide)
+        if (CharacterController.Instance.hasAutoGuidShot)
         {
             if (target != Vector3.zero)
             {
@@ -60,13 +53,14 @@ public class Projectile : MonoBehaviour
             if (other.gameObject.CompareTag("Meteore") && !asteroidAlreadyCollided.Contains(other.GetInstanceID()))
             {
                 other.gameObject.GetComponent<Asteroid>().applyDmg(dmg * totalMultiplier,
-                    isFire ? fireDmg * totalMultiplier : 0, isIce ? slowImp : 0,
-                    isThunder ? thunderDmg * totalMultiplier : 0);
-                if (!isPiercing)
+                    CharacterController.Instance.hasFireShot ? fireDmg * totalMultiplier : 0,
+                    CharacterController.Instance.hasIceShot ? slowImp : 0,
+                    CharacterController.Instance.hasThunderShot ? thunderDmg * totalMultiplier : 0);
+                if (!CharacterController.Instance.hasPiercingShot)
                     Destroy(gameObject);
                 else
                 {
-                    if (isAutoGuide)
+                    if (CharacterController.Instance.hasAutoGuidShot)
                     {
                         target = Vector3.zero;
                     }
@@ -76,14 +70,15 @@ public class Projectile : MonoBehaviour
             }
         }
 
-        if (isAutoGuide && other.gameObject.CompareTag("Meteore") && target == Vector3.zero &&
+        if (CharacterController.Instance.hasAutoGuidShot && other.gameObject.CompareTag("Meteore") &&
+            target == Vector3.zero &&
             !asteroidAlreadyCollided.Contains(other.GetInstanceID()))
         {
             asteroidAlreadyCollided.Add(other.GetInstanceID());
             target = other.transform.position;
         }
 
-        if (isBouncing && other.gameObject.CompareTag("Wall"))
+        if (CharacterController.Instance.hasBouncingShot && other.gameObject.CompareTag("Wall"))
         {
             //TODO
             //If mur Top ou Bot change Y
@@ -99,6 +94,4 @@ public class Projectile : MonoBehaviour
             target = Vector3.zero;
         }
     }
-
-    // Update is called once per frame
 }

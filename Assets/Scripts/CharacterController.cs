@@ -29,6 +29,12 @@ public class CharacterController : MonoBehaviour
     public float gunBonusMultiplier = 1;
     public bool hasMutishot = false;
     public bool hasChargingShot = false;
+    public bool hasAutoGuidShot = false;
+    public bool hasFireShot = false;
+    public bool hasIceShot = false;
+    public bool hasThunderShot= false;
+    public bool hasBouncingShot = false;
+    public bool hasPiercingShot = false;
     
     //Other variable for Gun actions
     [Header("Other parameter GUN")]
