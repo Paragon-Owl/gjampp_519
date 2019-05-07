@@ -60,10 +60,7 @@ public class Projectile : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Meteore") && !asteroidAlreadyCollided.Contains(other.GetInstanceID()))
             {
-                other.gameObject.GetComponent<Asteroid>().applyDmg(dmg * totalMultiplier,
-                    CharacterController.Instance.hasFireShot ? fireDmg * totalMultiplier : 0,
-                    CharacterController.Instance.hasIceShot ? slowImp : 0,
-                    CharacterController.Instance.hasThunderShot ? thunderDmg * totalMultiplier : 0);
+                other.gameObject.GetComponent<Asteroid>().applyDmg(dmg * totalMultiplier);
                 if (!CharacterController.Instance.hasPiercingShot)
                     Destroy(gameObject);
                 else
