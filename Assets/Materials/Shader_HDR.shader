@@ -7,7 +7,7 @@ Shader "Sprites/HDRBloom"
 	Properties
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
-		_Color ("Tint", Color) = (1,1,1,1)
+		[HDR] _Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 		_BloomThreshold ("BloomPower", Float) = 2.5
 	}
@@ -87,7 +87,6 @@ Shader "Sprites/HDRBloom"
 			{
 				fixed4 tex = SampleSpriteTexture (IN.texcoord);
 				fixed4 c = tex * IN.color;
-				c*=_BloomThreshold; // if r+g+b > threshold, then make this color brighter than 1
 				c.rgb *= c.a;
 				return c;
 			}

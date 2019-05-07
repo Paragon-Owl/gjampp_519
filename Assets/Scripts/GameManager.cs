@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     private string urlRequestPost = "http://makorj.fr/gjpp0519/saveGame.php?PLAYER_NAME=";
     private string urlRequestGet = "http://makorj.fr/gjpp0519/requestGame.php";
 
-    private GameManager()
+    void Awake()
     {
         if(instance == null )
             instance = this;
@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
-        instance.PlayGame();
-        //StartCoroutine(LoadMenuScene());
+        //instance.PlayGame();
+        StartCoroutine(LoadMenuScene());
     }
 
     void Update()
@@ -70,11 +70,18 @@ public class GameManager : MonoBehaviour
 
     IEnumerator LoadYourAsyncScene()
     {
+        SceneManager.UnloadSceneAsync("Scenes/Menu");
+        SceneManager.LoadSceneAsync("Scenes/Loading", LoadSceneMode.Additive);
+
         UnityWebRequest www = UnityWebRequest.Get(urlRequestGet);
         yield return www.SendWebRequest();
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
+
+            SceneManager.LoadSceneAsync("Scenes/HTTPError", LoadSceneMode.Additive);
+
+            yield break;
         }
         else
         {
@@ -91,6 +98,7 @@ public class GameManager : MonoBehaviour
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)
         {
+            SceneManager.UnloadSceneAsync("Scenes/Loading");
             yield return null;
         }
         Debug.Log("Loaded");

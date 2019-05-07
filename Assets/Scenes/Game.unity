@@ -50,7 +50,7 @@ LightmapSettings:
     m_BounceScale: 1
     m_IndirectOutputScale: 1
     m_AlbedoBoost: 1
-    m_EnvironmentLightingMode: 0
+    m_EnvironmentLightingMode: 1
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
@@ -170,7 +170,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1081603975}
   - component: {fileID: 1081603974}
-  - component: {fileID: 1081603973}
   - component: {fileID: 1081603976}
   m_Layer: 0
   m_Name: Camera
@@ -179,14 +178,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1081603973
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1081603972}
-  m_Enabled: 1
 --- !u!20 &1081603974
 Camera:
   m_ObjectHideFlags: 0
@@ -313,7 +304,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1919294719}
   - component: {fileID: 1919294721}
-  - component: {fileID: 1919294720}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -335,14 +325,6 @@ Transform:
   m_Father: {fileID: 624881102}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &1919294720
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919294718}
-  m_Enabled: 1
 --- !u!20 &1919294721
 Camera:
   m_ObjectHideFlags: 0

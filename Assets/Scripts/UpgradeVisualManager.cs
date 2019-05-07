@@ -5,15 +5,7 @@ using UnityEngine;
 public class UpgradeVisualManager : MonoBehaviour
 {
 
-    public Transform position1;
-    public Transform position2;
-    public Transform position3;
-    public Transform position4;
-    public Transform position5;
-    public Transform position6;
-    public Transform position7;
-    public Transform position8;
-    public Transform position9;
+    public List<Transform> positionIcons;
 
     public List<Sprite> sprites;
 

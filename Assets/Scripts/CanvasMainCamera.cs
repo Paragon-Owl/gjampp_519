@@ -41,8 +41,7 @@ public class CanvasMainCamera : MonoBehaviour
 
     public void PlayGame()
     {
-        //GameManager.instance.PlayGame();
-        Debug.Log("CACA");
+        GameManager.instance.PlayGame();
     }
 
     public void PlayCredit()
