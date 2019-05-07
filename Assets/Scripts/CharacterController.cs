@@ -13,7 +13,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] [Range(0f, 1f)] public float baseAcceleration = 0.1f;
     [SerializeField] [Range(0f, 1f)] public float decaySpeed = 0.1f;
     [SerializeField] [Range(0f, 1f)] public float acceleration = 0.2f;
-    [Header("Rotation")] [SerializeField] [Range(0, 360)]
+    [Header("Rotation")] [SerializeField] [Range(0, 1000)]
     public int dragSpeed = 30;
 
     
@@ -117,6 +117,7 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        debug_actionfortesting();
         Movement();
         GunActions();
         SwordActions();
@@ -382,5 +383,18 @@ public class CharacterController : MonoBehaviour
         {
             //TODO RESPAWN
         }
+    }
+    
+    private void debug_actionfortesting()
+    {
+        Instance.gunBonusMultiplier = gunBonusMultiplier;
+        Instance.hasMutishot = hasMutishot;
+        Instance.hasChargingShot = hasChargingShot;
+        Instance.hasAutoGuidShot = hasAutoGuidShot;
+        Instance.hasFireShot = hasFireShot;
+        Instance.hasIceShot = hasIceShot;
+        Instance.hasThunderShot = hasThunderShot;
+        Instance.hasBouncingShot = hasBouncingShot;
+        Instance.hasPiercingShot = hasPiercingShot;
     }
 }

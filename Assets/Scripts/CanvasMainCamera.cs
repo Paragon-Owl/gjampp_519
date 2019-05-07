@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+
 public class CanvasMainCamera : MonoBehaviour
 {
     public EventSystem ev;
@@ -64,6 +66,7 @@ public class CanvasMainCamera : MonoBehaviour
     public void PlayGame()
     {
         GameManager.instance.PlayGame();
+        SceneManager.UnloadSceneAsync("Scenes/Menu");
     }
 
     public void PlayCredit()

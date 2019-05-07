@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] public float speed = 1;
-    public float speedRotation = 1;
+    public float speedRotation = 1000;
 
     public float dmg = 10;
     public float totalMultiplier = 1f;
@@ -14,11 +14,13 @@ public class Projectile : MonoBehaviour
     private List<int> asteroidAlreadyCollided = new List<int>();
 
     public float fireDmg = 0.5f;
-    public float slowImp = 3f;
+    public float slowImp = 0.5f;
     public float thunderDmg = 1f;
 
     private CapsuleCollider2D cc;
 
+
+    public SpriteRenderer debugSpriteRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,14 +32,20 @@ public class Projectile : MonoBehaviour
     {
         if (CharacterController.Instance.hasAutoGuidShot)
         {
+            Debug.Log(target);
             if (target != Vector3.zero)
             {
                 Debug.Log(target);
                 direction = target - transform.position;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                Quaternion q = Quaternion.AngleAxis(angle, Vector3.back);
+                Quaternion q = Quaternion.AngleAxis(angle- 90, Vector3.forward);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, q, speedRotation * Time.deltaTime);
             }
+            else
+            {
+                direction = Vector3.up;
+            }
+            debug_color();
         }
 
         transform.position =
@@ -92,6 +100,48 @@ public class Projectile : MonoBehaviour
         if (other.gameObject.CompareTag("Meteore"))
         {
             target = Vector3.zero;
+        }
+    }
+
+    public void debug_color()
+    {
+        if (CharacterController.Instance.hasIceShot)
+        {
+            if (CharacterController.Instance.hasFireShot)
+            {
+                if (CharacterController.Instance.hasThunderShot)
+                {
+                    debugSpriteRenderer.color = Color.black;
+                }
+                else
+                {
+                    debugSpriteRenderer.color = Color.magenta;
+                }
+            } 
+            else if(CharacterController.Instance.hasThunderShot)
+            {
+                debugSpriteRenderer.color = Color.green;
+            }
+            else
+            {
+                Debug.Log("test");
+                debugSpriteRenderer.color = Color.blue;   
+            }
+        }
+        if (CharacterController.Instance.hasFireShot)
+        {
+            if (CharacterController.Instance.hasThunderShot)
+            {
+                debugSpriteRenderer.color = new Color32( 254 , 161 , 0, 1 );
+            }
+            else
+            {
+                debugSpriteRenderer.color = Color.red;
+            }
+        }
+        if (CharacterController.Instance.hasThunderShot)
+        {
+            debugSpriteRenderer.color = Color.yellow;
         }
     }
 }

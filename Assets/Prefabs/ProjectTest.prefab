@@ -133,8 +133,9 @@ MonoBehaviour:
   totalMultiplier: 1
   direction: {x: 0, y: 1, z: 0}
   fireDmg: 0.5
-  slowImp: 3
+  slowImp: 0.5
   thunderDmg: 1
+  debugSpriteRenderer: {fileID: 4309887150002787787}
 --- !u!58 &8416991285801561861
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -148,9 +149,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1, y: 0}
+  m_Offset: {x: 0.5, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.5
 --- !u!58 &1658705407805809704
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -164,9 +165,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1, y: 0}
+  m_Offset: {x: -0.5, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.5
 --- !u!58 &2513490487202451249
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -180,9 +181,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1}
+  m_Offset: {x: 0, y: 0.5}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.5
 --- !u!70 &4607529971011901569
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
