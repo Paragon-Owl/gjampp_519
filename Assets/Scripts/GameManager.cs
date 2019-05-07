@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public float currentGameTime = 0f;
     public float startGameTime;
     private bool endOfGame = false;
+    private bool isGameStarted = false;
     private string urlRequestPost = "http://makorj.fr/gjpp0519/saveGame.php?PLAYER_NAME=";
     private string urlRequestGet = "http://makorj.fr/gjpp0519/requestGame.php";
 
@@ -56,14 +57,15 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        currentGameTime = Time.time - startGameTime;
-        if (currentGameTime > gameTime)
+        if (isGameStarted)
         {
-            endOfGame = true;
+            currentGameTime = Time.time - startGameTime;
+            if (currentGameTime > gameTime)
+            {
+                endOfGame = true;
+            }
+            scoreTExt.text = (pointEarned/pointPerLevel).ToString();
         }
-
-        scoreTExt.text = (pointEarned/pointPerLevel).ToString();
-
     }
 
     IEnumerator LoadMenuScene()
@@ -108,6 +110,8 @@ public class GameManager : MonoBehaviour
             SceneManager.UnloadSceneAsync("Scenes/Loading");
             yield return null;
         }
+
+        startGameTime = Time.time;
         Debug.Log("Loaded");
     }
 

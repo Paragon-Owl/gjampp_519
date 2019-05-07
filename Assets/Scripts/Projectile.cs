@@ -45,8 +45,8 @@ public class Projectile : MonoBehaviour
             {
                 direction = Vector3.up;
             }
-            debug_color();
         }
+        debug_color();
 
         transform.position =
             Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
@@ -105,6 +105,7 @@ public class Projectile : MonoBehaviour
 
     public void debug_color()
     {
+        Debug.Log("Tklsdldksldks");
         if (CharacterController.Instance.hasIceShot)
         {
             if (CharacterController.Instance.hasFireShot)
@@ -128,7 +129,7 @@ public class Projectile : MonoBehaviour
                 debugSpriteRenderer.color = Color.blue;   
             }
         }
-        if (CharacterController.Instance.hasFireShot)
+        else if (CharacterController.Instance.hasFireShot)
         {
             if (CharacterController.Instance.hasThunderShot)
             {
@@ -139,7 +140,7 @@ public class Projectile : MonoBehaviour
                 debugSpriteRenderer.color = Color.red;
             }
         }
-        if (CharacterController.Instance.hasThunderShot)
+        else if (CharacterController.Instance.hasThunderShot)
         {
             debugSpriteRenderer.color = Color.yellow;
         }

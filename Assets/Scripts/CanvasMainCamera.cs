@@ -66,7 +66,6 @@ public class CanvasMainCamera : MonoBehaviour
     public void PlayGame()
     {
         GameManager.instance.PlayGame();
-        SceneManager.UnloadSceneAsync("Scenes/Menu");
     }
 
     public void PlayCredit()
