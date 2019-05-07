@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2473683879355603837}
   - component: {fileID: 5019648859606167034}
   - component: {fileID: 5019648859606167037}
-  - component: {fileID: 593651421}
   - component: {fileID: 373472948698198023}
   - component: {fileID: 4614350068535180633}
   m_Layer: 0
@@ -73,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 1a288f23a95ca774088203a92b4d5a1a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -116,30 +115,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcfb285dff0bcd47ac811e9d5073778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 5
+  baseAcceleration: 0.1
   decaySpeed: 0.268
+  acceleration: 0.2
   dragSpeed: 360
-  projectilePrefab: {fileID: 4309887150262309680, guid: 63b8214a9d9b3cf48ae7bb151c270be9,
-    type: 3}
-  minBoundaryBorder: {x: 1, y: 1}
-  maxBoundaryBorder: {x: -1, y: -1.5}
+  timeForShot: 0.3
+  basicGunDmgMultplier: 1
+  basicSwordDmgMultplier: 1
+  timeForReload: 0.5
+  timeForAttack: 0.3
+  gunBonusMultiplier: 1
+  hasMutishot: 0
+  hasChargingShot: 0
+  hasAutoGuidShot: 0
+  hasFireShot: 0
+  hasIceShot: 0
+  hasThunderShot: 0
+  hasBouncingShot: 0
+  hasPiercingShot: 0
   isReloading: 0
   maxAmmoAmount: 100
   ammoAmount: 0
   canShot: 1
-  startShotTime: 0
-  chargingMultiplier: 1
-  maxChargingMultiplier: 2
+  gunChargingMultiplier: 1
   stepForChargingShot: 0.01
+  maxGunChargingMultiplier: 2
   isChargingShot: 0
-  canAttack: 1
-  startAttackTime: 0
-  hasDash: 1
+  startShotTime: 0
+  hasDash: 0
   hasChargingSword: 0
   hasKnockbackSword: 0
+  hasFireSword: 0
+  hasIceSword: 0
+  hasThunderSword: 0
+  hasBonusSpeed: 0
+  hasCriticalDmg: 0
+  swordBonusMultiplier: 1
+  swordChargingMultiplier: 1
+  isChargingSword: 0
+  stepForChargingSword: 0.01
+  maxSwordChargingMultiplier: 2
+  durationSwordAnimAttack: 0.1
+  startSwordAnimAttackTime: 0
+  canAttack: 1
+  startAttackTime: 0
   dashPower: 1.5
   SwordCollider2Ds:
   - {fileID: 373472948698198023}
   - {fileID: 4614350068535180633}
+  fireDmg: 0.5
+  slowImp: 3
+  thunderDmg: 1
+  swordDmg: 10
+  speedBonusMultiplier: 2
+  durationSpeedBonus: 0.3
+  startSpeedBonus: 0
+  projectilePrefab: {fileID: 4309887150262309680, guid: 63b8214a9d9b3cf48ae7bb151c270be9,
+    type: 3}
+  minBoundaryBorder: {x: 1, y: 1}
+  maxBoundaryBorder: {x: -1, y: -1.5}
+  shield: 0
 --- !u!70 &5019648859606167037
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
