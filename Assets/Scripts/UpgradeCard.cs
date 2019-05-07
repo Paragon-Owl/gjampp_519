@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class UpgradeCard : MonoBehaviour
 {
+    public enum Type
+    {
+        Stat,
+        Gun,
+        Sword,
+        Other
+    }
+
     public Vector3 targetPosition;
 
     public Sprite[] spritesList;
@@ -11,6 +19,15 @@ public class UpgradeCard : MonoBehaviour
     public TMPro.TMP_Text title;
     public TMPro.TMP_Text text;
 
+    private Type _type;
+
+    public Type type { get{ return _type; } }
+
+    public AMJ.GunUpgrade gunUpgrade;
+    public AMJ.OtherUpgrade otherUpgrade;
+    public AMJ.SwordUpgrade swordUpgrade;
+
+    public Stat.Type statUpgrade;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +37,8 @@ public class UpgradeCard : MonoBehaviour
 
     public void Set(AMJ.GunUpgrade upgrade)
     {
+        _type = Type.Gun;
+        gunUpgrade = upgrade;
         switch (upgrade)
         {
             case AMJ.GunUpgrade.Autoguide:

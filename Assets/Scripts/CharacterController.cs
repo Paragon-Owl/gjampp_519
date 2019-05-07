@@ -126,12 +126,12 @@ public class CharacterController : MonoBehaviour
     {
         if (!hasChargingShot)
         {
-            if (Input.GetButton("Fire1") && !Input.GetButtonDown("Fire2"))
+            if ((Input.GetButton("Fire1") || ButtonA.pressed) && !Input.GetButtonDown("Fire2"))
                 Fire();
         }
         else
         {
-            if (Input.GetButton("Fire1") && !Input.GetButtonDown("Fire2"))
+            if ((Input.GetButton("Fire1") || ButtonA.pressed) && !Input.GetButtonDown("Fire2"))
             {
                 isChargingShot = true;
                 gunChargingMultiplier = gunChargingMultiplier <= maxGunChargingMultiplier
@@ -139,7 +139,7 @@ public class CharacterController : MonoBehaviour
                     : gunChargingMultiplier;
             }
 
-            if (isChargingShot && !Input.GetButton("Fire1") && !Input.GetButtonDown("Fire2"))
+            if (isChargingShot && !(Input.GetButton("Fire1") || ButtonA.pressed) && !Input.GetButtonDown("Fire2"))
             {
                 Fire();
                 gunChargingMultiplier = 1;
@@ -173,7 +173,7 @@ public class CharacterController : MonoBehaviour
                     : swordChargingMultiplier;
             }
 
-            if (isChargingShot && !Input.GetButton("Fire1") && !Input.GetButtonDown("Fire2"))
+            if (isChargingShot && !(Input.GetButton("Fire1") || ButtonA.pressed) && !Input.GetButtonDown("Fire2"))
             {
                 Hit();
                 gunChargingMultiplier = 1;

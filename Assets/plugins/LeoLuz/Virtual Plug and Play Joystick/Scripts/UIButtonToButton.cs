@@ -16,6 +16,7 @@ namespace LeoLuz.PlugAndPlayJoystick
     {
         [InputAxesListDropdown]
         public string ButtonName;
+
         [ReadOnlyInPlayMode]
         public bool pressed;
 
@@ -70,6 +71,7 @@ namespace LeoLuz.PlugAndPlayJoystick
 
         public virtual void OnPointerDown(PointerEventData data)
         {
+            pressed = true;
             Input.PressButtonDownMobile(ButtonName);
         }
 

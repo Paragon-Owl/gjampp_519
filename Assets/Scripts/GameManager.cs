@@ -10,6 +10,8 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    public TMPro.TMP_Text scoreTExt;
+
     public static GameManager instance = new GameManager();
     public const int NB_AMJ = 9;
     public const int NB_AMM = 80;
@@ -17,7 +19,8 @@ public class GameManager : MonoBehaviour
     public const int NB_LVL = 100;
     public int pointEarned = 0;
     public float pointMultiplier = 1f;
-    
+    public int pointPerLevel = 100;
+
     public List<AMJ.GunUpgrade> gunUpgradeList = new List<AMJ.GunUpgrade>(NB_AMJ);
     public List<AMJ.SwordUpgrade> swordUpgradeList = new List<AMJ.SwordUpgrade>(NB_AMJ);
     public List<AMJ.OtherUpgrade> otherUpgradeList = new List<AMJ.OtherUpgrade>(NB_AMJ);
@@ -44,7 +47,7 @@ public class GameManager : MonoBehaviour
         if(instance == null )
             instance = this;
     }
-    
+
     private void Start()
     {
         //instance.PlayGame();
@@ -58,6 +61,9 @@ public class GameManager : MonoBehaviour
         {
             endOfGame = true;
         }
+
+        scoreTExt.text = (pointEarned/pointPerLevel).ToString();
+
     }
 
     IEnumerator LoadMenuScene()
@@ -89,6 +95,7 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log(DeserializeJson.instance.id_game);
+        yield return new WaitForSeconds(2f);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Scenes/Game", LoadSceneMode.Additive);
 
         PRNG.init(DeserializeJson.instance.seed);

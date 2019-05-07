@@ -24,17 +24,39 @@ public class CanvasMainCamera : MonoBehaviour
 
         if(lastDelay >= delay)
         {
-            if(Input.GetAxis("Vertical")*10>5)
+
+            float value = Input.GetAxis("Vertical");
+
+            if(value > 0)
             {
-                activeButtonIndex = activeButtonIndex-1<0?buttons.Count-1:activeButtonIndex-1;
-                ev.SetSelectedGameObject(buttons[activeButtonIndex].gameObject);
-                lastDelay = 0;
+                if(activeButtonIndex != 0)
+                {
+                    activeButtonIndex--;
+                }
             }
-            else if(Input.GetAxis("Vertical")*10<-5)
+            else if(value < 0)
             {
-                activeButtonIndex = (activeButtonIndex+1)%buttons.Count;
-                ev.SetSelectedGameObject(buttons[activeButtonIndex].gameObject);
-                lastDelay = 0;
+                if(activeButtonIndex != 2)
+                    activeButtonIndex++;
+            }
+
+            ev.SetSelectedGameObject(buttons[activeButtonIndex].gameObject);
+            lastDelay = 0;
+        }
+
+        if(ButtonA.pressed)
+        {
+            switch(activeButtonIndex)
+            {
+                case 0:
+                    PlayGame();
+                    break;
+                case 1:
+                    PlayCredit();
+                    break;
+                case 2:
+                    Quit();
+                    break;
             }
         }
     }

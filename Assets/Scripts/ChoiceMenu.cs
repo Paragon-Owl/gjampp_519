@@ -61,9 +61,27 @@ public class ChoiceMenu : MonoBehaviour
             }
         }
 
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButtonDown("Fire1") || ButtonA.pressed)
         {
             Time.timeScale = 1;
+
+            switch(cards[activeCardIndex].type)
+            {
+                case UpgradeCard.Type.Gun:
+                    //GameManager.instance.ApplyGunUpgrade(cards[activeCardIndex].gunUpgrade);
+                    break;
+                case UpgradeCard.Type.Other:
+                    //GameManager.instance.ApplyOtherUpgrade(cards[activeCardIndex].otherUpgrade);
+                    break;
+                case UpgradeCard.Type.Stat:
+                    //GameManager.instance.ApplyStatUpgrade(cards[activeCardIndex].statUpgrade);
+                    break;
+                case UpgradeCard.Type.Sword:
+                    //GameManager.instance.ApplySwordUpgrade(cards[activeCardIndex].swordUpgrade);
+                    break;
+            }
+
+            gameObject.SetActive(false);
         }
     }
 
