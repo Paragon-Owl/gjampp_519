@@ -31,7 +31,7 @@ public class ChoiceMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(moving || Time.time - timeOpen < 1.5f)
+        if(moving || Time.unscaledTime - timeOpen < 0.5f)
             return;
 
         float value = Input.GetAxis("Horizontal");
@@ -93,7 +93,7 @@ public class ChoiceMenu : MonoBehaviour
     {
         CharacterController.Instance.menuChoice.SetActive(true);
         instance = CharacterController.Instance.menuChoice.GetComponent<ChoiceMenu>();
-        instance.timeOpen = Time.time;
+        instance.timeOpen = Time.unscaledTime;
 
         instance.cards[0].Set(card1);
         instance.cards[1].Set(card2);
@@ -104,7 +104,7 @@ public class ChoiceMenu : MonoBehaviour
     {
         CharacterController.Instance.menuChoice.SetActive(true);
         instance = CharacterController.Instance.menuChoice.GetComponent<ChoiceMenu>();
-        instance.timeOpen = Time.time;
+        instance.timeOpen = Time.unscaledTime;
 
         instance.cards[0].Set(gunCard);
         instance.cards[1].Set(swordCard);
