@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class CharacterController : MonoBehaviour
 {
+    public GameObject menuChoice;
     public static CharacterController Instance = new CharacterController();
     [Header("Movement")] [SerializeField] public float speed = 5;
 
@@ -122,12 +123,12 @@ public class CharacterController : MonoBehaviour
     {
         if (!hasChargingShot)
         {
-            if ((Input.GetButton("Fire1") || ButtonA.pressed) && !Input.GetButtonDown("Fire2"))
+            if ((Input.GetButton("Fire1") || ButtonA.pressed) && !(Input.GetButton("Fire2") || ButtonB.pressed))
                 Fire();
         }
         else
         {
-            if ((Input.GetButton("Fire1") || ButtonA.pressed) && !Input.GetButtonDown("Fire2"))
+            if ((Input.GetButton("Fire1") || ButtonA.pressed) && !(Input.GetButton("Fire2") || ButtonB.pressed))
             {
                 isChargingShot = true;
                 gunChargingMultiplier = gunChargingMultiplier <= maxGunChargingMultiplier
@@ -135,7 +136,7 @@ public class CharacterController : MonoBehaviour
                     : gunChargingMultiplier;
             }
 
-            if (isChargingShot && !(Input.GetButton("Fire1") || ButtonA.pressed) && !Input.GetButtonDown("Fire2"))
+            if (isChargingShot && !(Input.GetButton("Fire1") || ButtonA.pressed) && !(Input.GetButton("Fire2") || ButtonB.pressed))
             {
                 Fire();
                 gunChargingMultiplier = 1;
@@ -158,12 +159,12 @@ public class CharacterController : MonoBehaviour
     {
         if (!hasChargingSword)
         {
-            if (Input.GetButton("Fire2") && !Input.GetButtonDown("Fire1"))
+            if ((Input.GetButton("Fire2") || ButtonB.pressed) && !(Input.GetButton("Fire1") || ButtonA.pressed))
                 Hit();
         }
         else
         {
-            if (Input.GetButton("Fire2") && !Input.GetButtonDown("Fire1"))
+            if ((Input.GetButton("Fire2") || ButtonB.pressed) && !(Input.GetButton("Fire1") || ButtonA.pressed))
             {
                 isChargingSword = true;
                 swordChargingMultiplier = swordChargingMultiplier <= maxSwordChargingMultiplier
@@ -171,7 +172,7 @@ public class CharacterController : MonoBehaviour
                     : swordChargingMultiplier;
             }
 
-            if (isChargingShot && !(Input.GetButton("Fire1") || ButtonA.pressed) && !Input.GetButtonDown("Fire2"))
+            if (isChargingShot && !(Input.GetButton("Fire1") || ButtonA.pressed) && !(Input.GetButtonDown("Fire2") || ButtonB.pressed))
             {
                 Hit();
                 gunChargingMultiplier = 1;
@@ -189,14 +190,14 @@ public class CharacterController : MonoBehaviour
         val = Input.GetAxis("Vertical");
         direction.y += (val * ((speed * baseAcceleration) + (speed * acceleration))) * Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        /*if (Input.GetKey(KeyCode.LeftArrow))
             direction.x -= ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;
         if (Input.GetKey(KeyCode.RightArrow))
             direction.x += ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;
         if (Input.GetKey(KeyCode.UpArrow))
             direction.y += ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;
         if (Input.GetKey(KeyCode.DownArrow))
-            direction.y -= ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;
+            direction.y -= ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;*/
 
         direction.x = Mathf.Clamp(direction.x, -speed, speed);
         direction.y = Mathf.Clamp(direction.y, -speed, speed);
@@ -325,6 +326,78 @@ public class CharacterController : MonoBehaviour
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    public void GunUpgrade(AMJ.GunUpgrade upgrade)
+    {
+        switch(upgrade)
+        {
+            case AMJ.GunUpgrade.Autoguide:
+                hasAutoGuidShot = true;
+                break;
+            case AMJ.GunUpgrade.Bouncing:
+                hasBouncingShot = true;
+                break;
+            case AMJ.GunUpgrade.Charging:
+                isChargingShot = true;
+                break;
+            case AMJ.GunUpgrade.Damage:
+                activeGunBonusDamage();
+                break;
+            case AMJ.GunUpgrade.Fire:
+                hasFireShot = true;
+                break;
+            case AMJ.GunUpgrade.Ice:
+                hasIceShot = true;
+                break;
+            case AMJ.GunUpgrade.Multishot:
+                hasMutishot = true;
+                break;
+            case AMJ.GunUpgrade.Piercing:
+                hasPiercingShot = true;
+                break;
+            case AMJ.GunUpgrade.Thunder:
+                hasThunderShot = true;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SwordUpgrade(AMJ.SwordUpgrade upgrade)
+    {
+        switch(upgrade)
+        {
+            case AMJ.SwordUpgrade.Charging:
+                hasChargingSword = true;
+                break;
+            case AMJ.SwordUpgrade.Critical:
+                hasCriticalDmg = true;
+                break;
+            case AMJ.SwordUpgrade.Damage:
+                activeSwordBonusDamage();
+                break;
+            case AMJ.SwordUpgrade.Dash:
+                hasDash = true;
+                break;
+            case AMJ.SwordUpgrade.Fire:
+                hasFireSword = true;
+                break;
+            case AMJ.SwordUpgrade.Ice:
+                hasIceSword = true;
+                break;
+            case AMJ.SwordUpgrade.Knock:
+                hasKnockbackSword = true;
+                break;
+            case AMJ.SwordUpgrade.Speed:
+                hasBonusSpeed = true;
+                break;
+            case AMJ.SwordUpgrade.Thunder:
+                hasThunderSword = true;
+                break;
+            default:
+                break;
         }
     }
 

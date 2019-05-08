@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadMenuScene());
     }
 
+    private int lastLevel;
+
     void Update()
     {
         if (isGameStarted)
@@ -65,7 +67,66 @@ public class GameManager : MonoBehaviour
             {
                 endOfGame = true;
             }
+            if(lastLevel != DeserializeJson.instance.points/pointPerLevel)
+            {
+                lastLevel = DeserializeJson.instance.points/pointPerLevel;
+                if(lastLevel%10 == 0)
+                {
+                    ChoiceMenu.SetUpgradeCards(gunUpgradeList[indexGunUpgradeList], swordUpgradeList[indexSwordUpgradeList], otherUpgradeList[indexOtherUpgradeList]);
+                }
+                else
+                {
+                    ChoiceMenu.SetUpgradeCards(stat1UpgradeList[indexStatUpgradeList].type, stat2UpgradeList[indexStatUpgradeList].type, stat3UpgradeList[indexStatUpgradeList].type);
+                }
+            }
             scoreTExt.text = (DeserializeJson.instance.points/pointPerLevel).ToString();
+        }
+
+        if(endOfGame)
+        {
+            StartCoroutine("saveGame");
+            SceneManager.UnloadSceneAsync("Scenes/Game");
+            SceneManager.LoadScene("Scenes/MenuLost", LoadSceneMode.Additive);
+        }
+    }
+
+    public void ApplyChoiceUpgrade(int value)
+    {
+        DeserializeJson.instance.historics += value.ToString();
+         if(lastLevel%10 == 0)
+        {
+            switch(value)
+            {
+                case 1:
+                    AMJ.applyGunUpgrade(gunUpgradeList[indexGunUpgradeList]);
+                    indexGunUpgradeList++;
+                    break;
+                case 2:
+                    AMJ.applySwordUpgrade(swordUpgradeList[indexSwordUpgradeList]);
+                    indexSwordUpgradeList++;
+                    break;
+                case 3:
+                    AMJ.applyOtherUpgrade(otherUpgradeList[indexOtherUpgradeList]);
+                    indexOtherUpgradeList++;
+                    break;
+            }
+        }
+        else
+        {
+            StatUpgradeStruct struc;
+            switch(value)
+            {
+                case 1:
+                    struc = stat1UpgradeList[indexStatUpgradeList];
+                    break;
+                case 2:
+                    struc = stat2UpgradeList[indexStatUpgradeList];
+                    break;
+                case 3:
+                    struc = stat3UpgradeList[indexStatUpgradeList];
+                    break;
+            }
+            indexStatUpgradeList++;
         }
     }
 
@@ -105,6 +166,7 @@ public class GameManager : MonoBehaviour
         initMapWithSeed();
         debug_writeUpgradeList();
         loadHistoric(DeserializeJson.instance.historics);
+        lastLevel = DeserializeJson.instance.points/pointPerLevel;
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)
         {

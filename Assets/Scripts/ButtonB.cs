@@ -5,7 +5,7 @@ using UnityEngine;
 public class ButtonB : MonoBehaviour
 {
 
-    static bool pressed = false;
+    static public bool pressed = false;
     static bool inside = false;
 
     private void FixedUpdate() {

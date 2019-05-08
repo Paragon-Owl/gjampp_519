@@ -19,6 +19,7 @@ public class ChoiceMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(instance == null || instance == this) instance = this; else Destroy(gameObject);
         Time.timeScale = 0;
         activeCardIndex = 1;
         moving = false;
@@ -65,21 +66,7 @@ public class ChoiceMenu : MonoBehaviour
         {
             Time.timeScale = 1;
 
-            switch(cards[activeCardIndex].type)
-            {
-                case UpgradeCard.Type.Gun:
-                    //GameManager.instance.ApplyGunUpgrade(cards[activeCardIndex].gunUpgrade);
-                    break;
-                case UpgradeCard.Type.Other:
-                    //GameManager.instance.ApplyOtherUpgrade(cards[activeCardIndex].otherUpgrade);
-                    break;
-                case UpgradeCard.Type.Stat:
-                    //GameManager.instance.ApplyStatUpgrade(cards[activeCardIndex].statUpgrade);
-                    break;
-                case UpgradeCard.Type.Sword:
-                    //GameManager.instance.ApplySwordUpgrade(cards[activeCardIndex].swordUpgrade);
-                    break;
-            }
+            GameManager.instance.ApplyChoiceUpgrade(activeCardIndex++);
 
             gameObject.SetActive(false);
         }
@@ -101,7 +88,9 @@ public class ChoiceMenu : MonoBehaviour
 
     static public void SetUpgradeCards(Stat.Type card1, Stat.Type card2, Stat.Type card3)
     {
-        instance.gameObject.SetActive(true);
+        CharacterController.Instance.menuChoice.SetActive(true);
+        instance = CharacterController.Instance.menuChoice.GetComponent<ChoiceMenu>();
+
         instance.cards[0].Set(card1);
         instance.cards[1].Set(card2);
         instance.cards[2].Set(card3);
@@ -109,7 +98,9 @@ public class ChoiceMenu : MonoBehaviour
 
     static public void SetUpgradeCards(AMJ.GunUpgrade gunCard, AMJ.SwordUpgrade swordCard, AMJ.OtherUpgrade otherCard)
     {
-        instance.gameObject.SetActive(true);
+        CharacterController.Instance.menuChoice.SetActive(true);
+        instance = CharacterController.Instance.menuChoice.GetComponent<ChoiceMenu>();
+
         instance.cards[0].Set(gunCard);
         instance.cards[1].Set(swordCard);
         instance.cards[2].Set(otherCard);

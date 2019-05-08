@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Loading.unity
     guid: f9d23c5d9b92c69499577fec88b4f4d3
+  - enabled: 1
+    path: Assets/Scenes/MenuLost.unity
+    guid: 0d2c1054bc5e9b644844c250fcfeab19
   m_configObjects: {}
