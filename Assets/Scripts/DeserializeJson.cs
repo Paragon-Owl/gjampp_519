@@ -1,5 +1,8 @@
-﻿using System.Runtime.Serialization.Json;
+﻿using System.Diagnostics;
+using System.Runtime.Serialization.Json;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
+
 [System.Serializable]
 public class DeserializeJson
 {

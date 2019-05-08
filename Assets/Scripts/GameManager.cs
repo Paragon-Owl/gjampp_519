@@ -173,6 +173,7 @@ public class GameManager : MonoBehaviour
             SceneManager.UnloadSceneAsync("Scenes/Loading");
             yield return null;
         }
+        finalizeInitGame();
     }
 
     private void initMapWithSeed()
@@ -365,12 +366,15 @@ public class GameManager : MonoBehaviour
     public void PlayGame()
     {
         StartCoroutine(LoadYourAsyncScene());
+    }
+
+    private void finalizeInitGame()
+    {
         SpawnerController.StartSpawn();
         pointEarnedByAsteroid = 50;
         startGameTime = Time.time;
         isGameStarted = true;
     }
-
     #endregion
 
     #region Debug

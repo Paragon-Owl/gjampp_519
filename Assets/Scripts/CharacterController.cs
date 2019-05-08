@@ -101,7 +101,7 @@ public class CharacterController : MonoBehaviour
     {
         direction = Vector2.zero;
         gameCamera = GameObject.FindGameObjectWithTag("GameMainCamera").GetComponent<Camera>();
-
+        Instance.menuChoice = menuChoice;
         minBoundary = gameCamera.ViewportToWorldPoint(Vector3.forward * 10);
         maxBoundary = gameCamera.ViewportToWorldPoint((Vector3.right + Vector3.up) + (Vector3.forward * 10));
 
