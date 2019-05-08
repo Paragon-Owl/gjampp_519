@@ -72,9 +72,6 @@ public class CharacterController : MonoBehaviour
     public float startAttackTime;
     public float dashPower = 1.5f;
     public List<CapsuleCollider2D> SwordCollider2Ds;
-    public float fireDmg = 0.5f;
-    public float slowImp = 3f;
-    public float thunderDmg = 1f;
     public float swordDmg = 10f;
     public float speedBonusMultiplier = 2f;
     public float durationSpeedBonus = 0.3f;

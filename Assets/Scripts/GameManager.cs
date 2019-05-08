@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
     public const int NB_AMM = 80;
     public const int NB_LVL_BETWEEN_AMJ = 10;
     public const int NB_LVL = 100;
-    public int pointEarned = 0;
+    [FormerlySerializedAs("pointEarned")] public int pointEarnedByAsteroid = 0;
     public float pointMultiplier = 1f;
     public int pointPerLevel = 100;
 
@@ -64,7 +65,7 @@ public class GameManager : MonoBehaviour
             {
                 endOfGame = true;
             }
-            scoreTExt.text = (pointEarned/pointPerLevel).ToString();
+            scoreTExt.text = (DeserializeJson.instance.points/pointPerLevel).ToString();
         }
     }
 
@@ -110,9 +111,6 @@ public class GameManager : MonoBehaviour
             SceneManager.UnloadSceneAsync("Scenes/Loading");
             yield return null;
         }
-
-        startGameTime = Time.time;
-        Debug.Log("Loaded");
     }
 
     private void initMapWithSeed()
@@ -306,8 +304,9 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(LoadYourAsyncScene());
         SpawnerController.StartSpawn();
-        pointEarned = 10;
+        pointEarnedByAsteroid = 50;
         startGameTime = Time.time;
+        isGameStarted = true;
     }
 
     #endregion

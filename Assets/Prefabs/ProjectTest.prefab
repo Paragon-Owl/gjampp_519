@@ -129,12 +129,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   speedRotation: 50
-  dmg: 10
+  dmg: 25
   totalMultiplier: 1
   direction: {x: 0, y: 1, z: 0}
-  fireDmg: 0.5
-  slowImp: 0.5
-  thunderDmg: 1
   debugSpriteRenderer: {fileID: 4309887150002787787}
 --- !u!58 &8416991285801561861
 CircleCollider2D:

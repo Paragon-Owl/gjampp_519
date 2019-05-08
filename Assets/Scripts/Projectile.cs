@@ -7,15 +7,11 @@ public class Projectile : MonoBehaviour
     [SerializeField] public float speed = 1;
     public float speedRotation = 1000;
 
-    public float dmg = 10;
+    public float dmg = 20;
     public float totalMultiplier = 1f;
     public Vector3 direction = Vector3.up;
     private Vector3 target = Vector3.zero;
     private List<int> asteroidAlreadyCollided = new List<int>();
-
-    public float fireDmg = 0.5f;
-    public float slowImp = 0.5f;
-    public float thunderDmg = 1f;
 
     private CapsuleCollider2D cc;
 
@@ -102,7 +98,6 @@ public class Projectile : MonoBehaviour
 
     public void debug_color()
     {
-        Debug.Log("Tklsdldksldks");
         if (CharacterController.Instance.hasIceShot)
         {
             if (CharacterController.Instance.hasFireShot)

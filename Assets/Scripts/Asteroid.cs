@@ -61,7 +61,7 @@ public class Asteroid : MonoBehaviour
 
         if (health <= 0)
         {
-            DeserializeJson.instance.points += (int)(GameManager.instance.pointEarned*GameManager.instance.pointMultiplier);
+            DeserializeJson.instance.points += (int)(GameManager.instance.pointEarnedByAsteroid*GameManager.instance.pointMultiplier);
             Destroy(gameObject);
         }
 
@@ -101,6 +101,7 @@ public class Asteroid : MonoBehaviour
 
     public void applyDmg(float dmg)
     {
+        Debug.Log(dmg);
         health -= dmg;
         if (CharacterController.Instance.hasFireShot)
         {
