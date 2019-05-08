@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
-using NUnit.Compatibility;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -23,12 +22,16 @@ public class Asteroid : MonoBehaviour
     public int nbOfHitFireEffect = 5;
     public int actualNbFireEffect;
     public float startFireEffect;
+    public bool fireDmgActive = false;
     [FormerlySerializedAs("fireDmgPerSecond")] public float fireDmg = 1f;
 
     public float thunderDmg = 15f;
     public int nbOfAttackNeeded = 3;
     public int actualNbAttack;
-    
+
+    public ParticleSystem IceEffect;
+    public ParticleSystem FireEffect;
+    public ParticleSystem ThunderEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +40,9 @@ public class Asteroid : MonoBehaviour
         timeSinceLastUpdate = 0;
         isSynch = false;
         baseSpeed = speed;
+        IceEffect.Stop();
+        FireEffect.Stop();
+        ThunderEffect.Stop();
     }
 
     // Update is called once per frame
@@ -67,21 +73,29 @@ public class Asteroid : MonoBehaviour
         if (Time.time - startIceEffect > timeOfIceEffect && CharacterController.Instance.hasIceShot)
         {
             speed = baseSpeed;
-            //STOP ANIM OF ICEs
+            if (IceEffect.isPlaying)
+            {
+                IceEffect.Stop();
+            }
         } 
-        if (Time.time - startFireEffect > timeOfHitFireEffect && actualNbFireEffect < nbOfHitFireEffect && CharacterController.Instance.hasFireShot)
+        if (Time.time - startFireEffect > timeOfHitFireEffect && actualNbFireEffect < nbOfHitFireEffect && fireDmgActive && CharacterController.Instance.hasFireShot)
         {
             health -= fireDmg;
             actualNbFireEffect ++;
             startFireEffect = Time.time;
-            //START ANIM FIRE
+            FireEffect.Play();
+        }
+
+        if (actualNbFireEffect >= nbOfHitFireEffect)
+        {
+            fireDmgActive = false;
         }
 
         if (nbOfAttackNeeded == actualNbAttack && CharacterController.Instance.hasThunderShot)
         {
             health -= thunderDmg;
             actualNbAttack = 0;
-            //START ANIM THUNDER
+            ThunderEffect.Play();
         }
     }
 
@@ -92,13 +106,14 @@ public class Asteroid : MonoBehaviour
         {
             startFireEffect = Time.time;
             actualNbFireEffect = 0;
-            //START ANIM FIRE
+            fireDmgActive = true;
         }
         if (CharacterController.Instance.hasIceShot)
         {
             startIceEffect = Time.time;
             speed = speed / slowImpDivisor;
-            //START ANIM OF ICEs
+            if(IceEffect.isStopped)
+                IceEffect.Play();
         }
 
         if (CharacterController.Instance.hasThunderShot)
