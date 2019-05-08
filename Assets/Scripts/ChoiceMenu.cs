@@ -12,6 +12,9 @@ public class ChoiceMenu : MonoBehaviour
 
     public float cardSpeed = 1;
     private bool moving = false;
+
+    private float timeOpen;
+
     private void Awake() {
         if(instance == null) instance = this; else Destroy(gameObject);
     }
@@ -28,7 +31,7 @@ public class ChoiceMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(moving)
+        if(moving || Time.time - timeOpen < 1.5f)
             return;
 
         float value = Input.GetAxis("Horizontal");
@@ -90,6 +93,7 @@ public class ChoiceMenu : MonoBehaviour
     {
         CharacterController.Instance.menuChoice.SetActive(true);
         instance = CharacterController.Instance.menuChoice.GetComponent<ChoiceMenu>();
+        instance.timeOpen = Time.time;
 
         instance.cards[0].Set(card1);
         instance.cards[1].Set(card2);
@@ -100,6 +104,7 @@ public class ChoiceMenu : MonoBehaviour
     {
         CharacterController.Instance.menuChoice.SetActive(true);
         instance = CharacterController.Instance.menuChoice.GetComponent<ChoiceMenu>();
+        instance.timeOpen = Time.time;
 
         instance.cards[0].Set(gunCard);
         instance.cards[1].Set(swordCard);
