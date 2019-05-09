@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcfb285dff0bcd47ac811e9d5073778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuChoice: {fileID: 0}
   speed: 5
   baseAcceleration: 0.1
   decaySpeed: 0.268
@@ -164,9 +165,6 @@ MonoBehaviour:
   SwordCollider2Ds:
   - {fileID: 373472948698198023}
   - {fileID: 4614350068535180633}
-  fireDmg: 0.5
-  slowImp: 3
-  thunderDmg: 1
   swordDmg: 10
   speedBonusMultiplier: 2
   durationSpeedBonus: 0.3
@@ -205,8 +203,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.11, y: 0.1}
-  m_Size: {x: 0.24, y: 0.4127607}
+  m_Offset: {x: -0.11000001, y: 0.0780014}
+  m_Size: {x: 0.24, y: 0.3687635}
   m_Direction: 0
 --- !u!70 &4614350068535180633
 CapsuleCollider2D:
@@ -221,6 +219,6 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.11, y: 0.1}
-  m_Size: {x: 0.24, y: 0.4127}
+  m_Offset: {x: 0.11, y: 0.0780014}
+  m_Size: {x: 0.24, y: 0.3687635}
   m_Direction: 0
