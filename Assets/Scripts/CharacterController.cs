@@ -87,7 +87,7 @@ public class CharacterController : MonoBehaviour
 
     private Vector3 direction;
     public int shield = 0;
-
+    private Animator _animator;
     private CharacterController()
     {
         if (Instance == null)
@@ -99,6 +99,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _animator = GetComponent<Animator>();
         direction = Vector2.zero;
         gameCamera = GameObject.FindGameObjectWithTag("GameMainCamera").GetComponent<Camera>();
         Instance.menuChoice = menuChoice;
@@ -238,10 +239,10 @@ public class CharacterController : MonoBehaviour
                 newShot.GetComponent<Projectile>().totalMultiplier =
                     (gunChargingMultiplier * gunBonusMultiplier * basicGunDmgMultplier);
             }
-
             canShot = false;
             startShotTime = Time.time;
             ammoAmount--;
+            _animator.SetTrigger("Fire");
         }
     }
 
@@ -286,6 +287,7 @@ public class CharacterController : MonoBehaviour
 
             SwordCollider2Ds[0].enabled = true;
             SwordCollider2Ds[1].enabled = true;
+            _animator.SetTrigger("Attack");
         }
     }
 
