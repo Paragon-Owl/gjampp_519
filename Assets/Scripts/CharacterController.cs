@@ -295,7 +295,7 @@ public class CharacterController : MonoBehaviour
     {
         gunBonusMultiplier = 2;
     }
-
+  
     public void activeSwordBonusDamage()
     {
         swordBonusMultiplier = 2;
