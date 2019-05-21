@@ -1076,6 +1076,11 @@ PrefabInstance:
       propertyPath: menuChoice
       value: 
       objectReference: {fileID: 9108905562079534987}
+    - target: {fileID: 5019648859606167034, guid: 05c1109de59b38c44852be9b14d46b59,
+        type: 3}
+      propertyPath: joystick
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05c1109de59b38c44852be9b14d46b59, type: 3}
 --- !u!1001 &9108905562079534986

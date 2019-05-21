@@ -3,21 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class CharacterController : MonoBehaviour
 {
+    private static Joystick joystick;
     public GameObject menuChoice;
     public static CharacterController Instance = new CharacterController();
     [Header("Movement")] [SerializeField] public float speed = 5;
 
     [Header("Acceleration")] [SerializeField] [Range(0f, 1f)]
-    public float baseAcceleration = 0.1f;
+    public float acceleration = 0.3f;
 
     [SerializeField] [Range(0f, 1f)] public float decaySpeed = 0.1f;
-    [SerializeField] [Range(0f, 1f)] public float acceleration = 0.2f;
 
-    [Header("Rotation")] [SerializeField] [Range(0, 1000)]
     public int dragSpeed = 30;
 
 
@@ -161,7 +161,9 @@ public class CharacterController : MonoBehaviour
         if (!hasChargingSword)
         {
             if ((Input.GetButton("Fire2") || ButtonB.pressed) && !(Input.GetButton("Fire1") || ButtonA.pressed))
+            {
                 Hit();
+            }
         }
         else
         {
@@ -181,24 +183,12 @@ public class CharacterController : MonoBehaviour
             }
         }
     }
-
     void Movement()
     {
         direction = Vector3.MoveTowards(direction, Vector2.zero, speed * decaySpeed * Time.deltaTime);
 
-        float val = Input.GetAxis("Horizontal");
-        direction.x += (val * ((speed * baseAcceleration) + (speed * acceleration))) * Time.deltaTime;
-        val = Input.GetAxis("Vertical");
-        direction.y += (val * ((speed * baseAcceleration) + (speed * acceleration))) * Time.deltaTime;
-
-        /*if (Input.GetKey(KeyCode.LeftArrow))
-            direction.x -= ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;
-        if (Input.GetKey(KeyCode.RightArrow))
-            direction.x += ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;
-        if (Input.GetKey(KeyCode.UpArrow))
-            direction.y += ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;
-        if (Input.GetKey(KeyCode.DownArrow))
-            direction.y -= ((speed * baseAcceleration) + (speed * acceleration)) * Time.deltaTime;*/
+        direction.x += joystick.Horizontal * speed * acceleration * Time.deltaTime;
+        direction.y += joystick.Vertical * speed * acceleration  * Time.deltaTime;
 
         direction.x = Mathf.Clamp(direction.x, -speed, speed);
         direction.y = Mathf.Clamp(direction.y, -speed, speed);
@@ -309,7 +299,7 @@ public class CharacterController : MonoBehaviour
                 speed = speed * stat.value;
                 break;
             case Stat.Type.Acceleration:
-                baseAcceleration = baseAcceleration * stat.value;
+                acceleration = acceleration * stat.value;
                 break;
             case Stat.Type.FireRate:
                 timeForShot = timeForShot / stat.value;
@@ -422,7 +412,7 @@ public class CharacterController : MonoBehaviour
                 SwordCollider2Ds[i].GetContacts(colliderWithOther);
                 for (int j = 0; j < 10; j++)
                 {
-                    if (colliderWithOther[j] != null && colliderWithOther[i].CompareTag("Meteore"))
+                    if (colliderWithOther[j] != null && colliderWithOther[j].CompareTag("Meteore"))
                     {
                         collideWithMeteore = true;
                         break;
@@ -456,6 +446,11 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    public static void setJoystick(Joystick js)
+    {
+        joystick = js;
+    }
+    
     private void debug_actionfortesting()
     {
         Instance.gunBonusMultiplier = gunBonusMultiplier;

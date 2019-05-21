@@ -117,10 +117,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuChoice: {fileID: 0}
   speed: 5
-  baseAcceleration: 0.1
+  acceleration: 0.176
   decaySpeed: 0.268
-  acceleration: 0.2
-  dragSpeed: 360
+  dragSpeed: 1000
   timeForShot: 0.3
   basicGunDmgMultplier: 1
   basicSwordDmgMultplier: 1

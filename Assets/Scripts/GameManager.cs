@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 public class GameManager : MonoBehaviour
 {
     public TMPro.TMP_Text scoreTExt;
-
+    public GameObject js;
     public static GameManager instance = new GameManager();
     public const int NB_AMJ = 9;
     public const int NB_AMM = 80;
@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
     {
         if(instance == null )
             instance = this;
+
+        js.SetActive(false);
     }
 
     private void Start()
@@ -374,6 +376,8 @@ public class GameManager : MonoBehaviour
         pointEarnedByAsteroid = 50;
         startGameTime = Time.time;
         isGameStarted = true;
+        js.SetActive(true);
+        CharacterController.setJoystick(js.GetComponent<Joystick>());
     }
     #endregion
 
